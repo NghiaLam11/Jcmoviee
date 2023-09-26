@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home"  v-if="idUser !== null">
     <div class="band">
       <div ref="imgThumbnail" class="img-thumbnail">
         <img class="img" src="../images/onepiece.jpg" alt="" />
@@ -50,6 +50,8 @@ import New from "../components/New.vue";
 import ContinueWatch from "../components/ContinueWatch.vue";
 import { onMounted, ref } from "vue";
 import { db } from "../firebase"
+const idUser = JSON.parse(localStorage.getItem("idUser") || "");
+
 const video = ref();
 const onWatch = () => {
   video.value.requestFullscreen();

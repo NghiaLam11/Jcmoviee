@@ -38,6 +38,7 @@
 import { ref } from "vue";
 import { useLogInUser } from "../composible/firebase";
 import { useRouter } from "vue-router";
+// import { useUserStore } from "../composible/pinia";
 const password = ref("");
 const email = ref("");
 const router = useRouter();

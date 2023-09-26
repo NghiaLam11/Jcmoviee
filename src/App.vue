@@ -7,7 +7,9 @@ import { useRouter } from "vue-router";
 import { onAuthStateChanged } from "firebase/auth";
 import { useGetMovies, useGetUsers } from "./composible/firebase";
 import { useLoaderStore } from "./composible/pinia";
-console.log(JSON.parse(localStorage.getItem("idUser") || ""));
+// localStorage.setItem("idUser", JSON.stringify('6ywB6XsltQjOZbgZ82Ej'));
+// const idUser = JSON.parse(localStorage.getItem("idUser") || "");
+
 const loaderStore = useLoaderStore();
 useGetMovies();
 useGetUsers();

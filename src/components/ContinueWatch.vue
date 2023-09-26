@@ -12,7 +12,7 @@
           :transition="500"
           pause-autoplay-on-hover
         >
-          <Slide v-for="movie in movies" :key="movie.title">
+          <Slide v-for="movie in store.user?.watchings" :key="movie.id">
             <div class="card">
               <div class="card-item">
                 <div class="card-img">
@@ -22,7 +22,7 @@
 
                 <div class="card-movie">
                   <h5 class="name">{{ movie.title }}</h5>
-                  <p class="desc">{{ movie.desc }}</p>
+                  <p class="desc">{{ movie.type }} | {{ movie.year }}</p>
                 </div>
               </div>
             </div>
@@ -41,28 +41,8 @@
 import { ref } from "vue";
 import "vue3-carousel/dist/carousel.css";
 import { Carousel, Navigation, Pagination, Slide } from "vue3-carousel";
-const movies = ref([
-  {
-    title: "Deadpool",
-    desc: "2020 | Action",
-    thumbnail: "/src/images/deadpool.jpg",
-  },
-  {
-    title: "Venom",
-    desc: "2019 | Action",
-    thumbnail: "/src/images/venom.jpg",
-  },
-  {
-    title: "Spiderman",
-    desc: "2021 | Fiction",
-    thumbnail: "/src/images/spiderman.jpg",
-  },
-  {
-    title: "The Witcher",
-    desc: "2020 | Horror",
-    thumbnail: "/src/images/witcher.jpg",
-  },
-]);
+import { useUserStore } from "../composible/pinia";
+const store = useUserStore()
 const breakpoints = ref({
   700: {
     itemsToShow: 2,

@@ -9,6 +9,7 @@ export interface Movies {
     year: number,
     id: string,
     userFavourite: string[];
+    comments: any[];
 }
 export interface User {
     name: string,
@@ -17,6 +18,6 @@ export interface User {
     email: string,
     favourites: Movies[],
     watched: string[],
-    watchings: string[],
+    watchings: any[],
     id: string,
 }

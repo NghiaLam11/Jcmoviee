@@ -65,7 +65,7 @@
       <ul class="nav-list">
         <li @click="openSearch"><i class="fas fa-search"></i></li>
         <li @click="openNotification"><i class="far fa-bell"></i></li>
-        <li>
+        <li> 
           <router-link to="profile"
              class="profile"><img
               class="avatar"
@@ -214,6 +214,7 @@ const headerHorizontal = ref();
 const onSignout = () => {
   useLogOutUser();
 }
+
 // Add background color to the header horizontal when the user scrolls down
 window.addEventListener("scroll", () => {
   if (window.scrollY > 0) {

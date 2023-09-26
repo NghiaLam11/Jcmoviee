@@ -55,52 +55,61 @@ const useGetMovieDetail = async (id: any) => {
   store.movieDetail = map.get(id);
   loaderStore.loader = false;
 };
-// const useUpdateMovie = (movie: any) => {
-//   const idUser = JSON.parse(localStorage.getItem("idUser") || "");
-//   const docRef = doc(db, "movies", movie.movies.id);
-//   const data = ref<any>("");
+const useUpdateMovie = (movie: any, comment: string) => {
+  // const idUser = JSON.parse(localStorage.getItem("idUser") || "");
+  // const movieDetailStore = useMoviesDetailStore();
+  const userStore = useUserStore();
+  const docRef = doc(db, "movies", movie.id);
+  movie.comments.unshift({
+    name: userStore.user?.name,
+    avatar: userStore.user?.avatar,
+    date:
+      new Date().toLocaleDateString() + " - " + new Date().toLocaleTimeString(),
+    comment,
+  });
+  const data = ref<any>({
+    comments: movie.comments,
+  });
 
-//   if (movie.type === "favourite") {
-//     movie.movies?.userFavourite.push(idUser);
-//     data.value = {
-//       userFavourite: movie.movies?.userFavourite,
-//     };
-//   } else if (movie.type === "unfavourite") {
-//     const indexOfMovie = ref<any>("");
-//     movie.movies?.userFavourite.indexOf(idUser);
-//     movie.movies?.userFavourite.splice(indexOfMovie.value, 1);
-//     data.value = {
-//       userFavourite: movie.movies?.userFavourite,
-//     };
-//   }
-
-//   updateDoc(docRef, data.value)
-//     .then(() => {
-//       console.log(
-//         "A New Document Field has been added to an existing document"
-//       );
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-// };
+  updateDoc(docRef, data.value)
+    .then(() => {
+      console.log(
+        "A New Document Field has been added to an existing document"
+      );
+    })
+    // .then(() => {
+    //   useGetMovieDetail(movie.id);
+    // })
+    .catch((error) => {
+      console.log(error);
+    });
+};
 const useGetUsers = async () => {
+  console.log("USE GET USER");
+  const loaderStore = useLoaderStore();
   const querySnapshot = await getDocs(collection(db, "users"));
   // console.log(querySnapshot.docs)
   const store = useUserStore();
+
   // ID from local storage
   const idUser = JSON.parse(localStorage.getItem("idUser") || "");
   querySnapshot.forEach((doc) => {
+    const docSnapshot = ref<any>({ ...doc.data(), id: doc.id });
+    store.users.push(docSnapshot.value);
+    console.log("AAAAAAAAAAAAAAAAAA");
+
     if (doc.id === idUser) {
-      const docSnapshot = ref<any>({ ...doc.data(), id: doc.id });
       store.user = docSnapshot.value;
     }
   });
+  loaderStore.loader = false;
 };
 const useAddUser = (user: any) => {
   const dbRef = collection(db, "users");
+  const loaderStore = useLoaderStore();
+  loaderStore.loader = true;
   const data = {
-    name: "JcAuthor",
+    name: user.name,
     email: user.email,
     favourites: [],
     bio: "English",
@@ -113,6 +122,7 @@ const useAddUser = (user: any) => {
     .then((docRef) => {
       localStorage.setItem("idUser", JSON.stringify(docRef.id));
       console.log(docRef.id, "Document has been added successfully");
+      loaderStore.loader = false;
     })
     .catch((error) => {
       console.log(error);
@@ -146,9 +156,14 @@ const useUpdateUser = (movie: any) => {
       favourites: store.user?.favourites,
     };
   } else if (movie.type === "watching") {
+    console.log("CCCCCCCCCc");
+    if (store.user?.watchings.length === 0) {
+      store.user?.watchings.push(movie.movies);
+    }
     store.user?.watchings.forEach((watching: any) => {
       if (watching.id !== movie.movies.id) {
         store.user?.watchings.push(movie.movies);
+        console.log("BBBBBBBBBB");
       }
     });
 
@@ -181,6 +196,8 @@ const useGetNews = async () => {
   });
 };
 const useCreateUser = (user: any) => {
+  const loaderStore = useLoaderStore();
+  loaderStore.loader = true;
   createUserWithEmailAndPassword(auth, user.email, user.password)
     .then(() => {
       // Signed up and add user to the database
@@ -194,12 +211,32 @@ const useCreateUser = (user: any) => {
     });
 };
 const useLogInUser = (user: any) => {
+  const usersStore = useUserStore();
+  const loaderStore = useLoaderStore();
+  loaderStore.loader = true;
   signInWithEmailAndPassword(auth, user.email, user.password)
     .then((userCredential) => {
-      // Signed in
       const user = userCredential.user;
-      console.log(user);
+      console.log(user, "USERRR");
+      console.log(usersStore.users, "USERSSS");
+      usersStore.users?.forEach((userStore) => {
+        if (userStore.email === user.email) {
+          localStorage.setItem("idUser", JSON.stringify(userStore.id));
+          usersStore.user = userStore;
+          console.log(userStore, "USERSTORE");
+          console.log(
+            JSON.parse(localStorage.getItem("idUser") || ""),
+            "EMPTY"
+          );
+        }
+      });
+      // Signed in
+
       // ...
+    })
+    .then(() => {
+      useGetUsers();
+      console.log(usersStore.user, "CHANGE USER STORE");
     })
     .catch((error) => {
       const errorMessage = error.message;
@@ -234,6 +271,8 @@ const useUpdatePassword = (newPassword: any) => {
 const useLogOutUser = () => {
   signOut(auth)
     .then(() => {
+      localStorage.setItem("idUser", JSON.stringify(""));
+
       // Sign-out successful.
       console.log("Sign-out successful");
     })
@@ -254,6 +293,7 @@ export {
   useLogOutUser,
   useGetMovieDetail,
   useUpdateUser,
+  useUpdateMovie,
   useAddUser,
   useUpdatePassword,
 };

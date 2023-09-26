@@ -4,11 +4,7 @@
       <div ref="imgThumbnail" class="img-thumbnail">
         <img class="img" :src="store.movieDetail?.thumbnail" alt="" />
       </div>
-      <div
-       
-        class="band-thumbnail"
-        v-if="isDisplayThumbnail"
-      >
+      <div class="band-thumbnail" v-if="isDisplayThumbnail">
         <video
           ref="video"
           class="thumbnail"
@@ -59,27 +55,31 @@
       </div>
       <div class="movie-comment">
         <h4 class="topic">COMMENTS</h4>
-        <form class="comment-form">
-          <input placeholder="What are you thinking?" type="text" />
-          <button><i class="far fa-paper-plane"></i></button>
+        <form @submit.prevent="onComment" class="comment-form">
+          <input
+            v-model="commentText"
+            placeholder="What are you thinking?"
+            type="text"
+          />
+          <button type="submit"><i class="far fa-paper-plane"></i></button>
         </form>
         <div>
-          <div class="comment">
+          <div
+            v-for="(comment, index) in store.movieDetail?.comments"
+            :key="index"
+            class="comment"
+          >
             <div class="img">
-              <img src="../images/nghia.jpg" alt="" />
+              <img :src="comment.avatar" alt="" />
             </div>
             <div class="user">
               <div>
-                <h4>Nghia Lam Hien</h4>
-                <span>9:00 - 10/11/2003</span>
+                <h4>{{ comment.name }}</h4>
+                <span>{{ comment.date }}</span>
               </div>
 
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Error
-                quae illum excepturi porro earum nisi mollitia aperiam dolor sit
-                amet consectetur adipisicing elit. Error quae illum excepturi
-                porro earum nisi mollitia aperiam Error quae illum excepturi
-                porro earum nisi mollitia aperiam
+                {{ comment.comment }}
               </p>
             </div>
           </div>
@@ -97,12 +97,17 @@ import { ref } from "vue";
 import { useMoviesDetailStore, useLoaderStore } from "../composible/pinia";
 import Loader from "../components/Loader.vue";
 import { useRoute } from "vue-router";
-import { useGetMovieDetail, useUpdateUser } from "../composible/firebase";
+import {
+  useGetMovieDetail,
+  useUpdateMovie,
+  useUpdateUser,
+} from "../composible/firebase";
 const store = useMoviesDetailStore();
 const loaderStore = useLoaderStore();
 const route = useRoute();
 useGetMovieDetail(route.params.id);
 const video = ref();
+const commentText = ref("");
 
 const imgThumbnail = ref<any>();
 const isDisplayThumbnail = ref(false);
@@ -119,8 +124,8 @@ const onWatch = () => {
   const movieWatching = ref({
     movies: store.movieDetail,
     type: "watching",
-  })
-  useUpdateUser(movieWatching.value)
+  });
+  useUpdateUser(movieWatching.value);
 };
 const onStartWatch = () => {
   isDisplayThumbnail.value = true;
@@ -143,6 +148,10 @@ function onToggleReadDesc() {
     moreText.value.style.display = "inline";
   }
 }
+const onComment = () => {
+  useUpdateMovie(store.movieDetail, commentText.value);
+  commentText.value = "";
+};
 </script>
 <style scoped>
 .movie-details {

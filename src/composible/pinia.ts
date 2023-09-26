@@ -10,7 +10,7 @@ export const useMoviesStore = defineStore("movies", () => {
 
 export const useMoviesDetailStore = defineStore("moviesDetail", () => {
   const movieDetail = ref<Movies>();
-
+  // movieDetail.value?.comments.sort((a: any, b: any) => b.date - a.date);
   return {
     movieDetail,
   };
@@ -18,9 +18,11 @@ export const useMoviesDetailStore = defineStore("moviesDetail", () => {
 
 export const useUserStore = defineStore("user", () => {
   const user = ref<User>();
+  const users = ref<User[]>([]);
 
   return {
     user,
+    users,
   };
 });
 

@@ -5,6 +5,16 @@
         <h3>Sign Up!</h3>
       </div>
       <div class="form-group">
+        <label for="email">Name</label>
+        <input
+          placeholder="Enter your name!"
+          class="name"
+          type="text"
+          required
+          v-model="name"
+        />
+      </div>
+      <div class="form-group">
         <label for="email">Email</label>
         <input
           placeholder="Enter your email!"
@@ -41,9 +51,11 @@ import { useCreateUser } from "../composible/firebase";
 const router = useRouter();
 const password = ref("");
 const email = ref("");
+const name = ref("");
 const onSignup = () => {
   const user = ref({
     email: email.value,
+    name: name.value,
     password: password.value,
   });
   useCreateUser(user.value);
