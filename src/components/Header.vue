@@ -56,7 +56,9 @@
         </li>
       </ul>
     </div>
-    <div ref="headerHorizontal" class="header-horizontal">
+    <div
+      :class="[scrollerStore.scroller ? 'scroller' : '', 'header-horizontal']"
+    >
       <ul class="nav-list">
         <li><router-link to="/movies">Movies</router-link></li>
         <li><router-link to="/series">Series</router-link></li>
@@ -65,13 +67,11 @@
       <ul class="nav-list">
         <li @click="openSearch"><i class="fas fa-search"></i></li>
         <li @click="openNotification"><i class="far fa-bell"></i></li>
-        <li> 
-          <router-link to="profile"
-             class="profile"><img
-              class="avatar"
-              :src="store.user?.avatar"
-              alt=""
-            /><span>{{ store.user?.name }}</span></router-link
+        <li>
+          <router-link to="profile" class="profile"
+            ><img class="avatar" :src="store.user?.avatar" alt="" /><span>{{
+              store.user?.name
+            }}</span></router-link
           >
         </li>
       </ul>
@@ -205,24 +205,17 @@
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
-import { useLogOutUser } from '../composible/firebase';
-import { useUserStore } from "../composible/pinia";
+import { useLogOutUser } from "../composible/firebase";
+import { useScrollerStore, useUserStore } from "../composible/pinia";
 const store = useUserStore();
 const search = ref();
 const notification = ref();
-const headerHorizontal = ref();
+const scrollerStore = useScrollerStore();
+
 const onSignout = () => {
   useLogOutUser();
-}
+};
 
-// Add background color to the header horizontal when the user scrolls down
-window.addEventListener("scroll", () => {
-  if (window.scrollY > 0) {
-    headerHorizontal.value.style.backgroundColor = "rgba(0,0,0,0.8)";
-  } else {
-    headerHorizontal.value.style.backgroundColor = "rgb(0, 0, 0, 0.0)";
-  }
-});
 const openSearch = () => {
   search.value.style.top = "0";
 };
@@ -266,6 +259,10 @@ const closeNotification = () => {
   top: 0;
   right: 0%;
   z-index: 999;
+}
+
+.scroller {
+  background-color: rgba(0, 0, 0, 0.7);
 }
 .header-horizontal a,
 i {

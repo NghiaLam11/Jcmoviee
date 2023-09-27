@@ -33,3 +33,11 @@ export const useLoaderStore = defineStore("loader", () => {
     loader,
   };
 });
+
+export const useScrollerStore = defineStore("scroller", () => {
+  const scroller = ref(false);
+
+  return {
+    scroller,
+  };
+});

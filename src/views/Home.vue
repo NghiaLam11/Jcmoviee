@@ -1,11 +1,18 @@
 <template>
-  <div class="home"  v-if="idUser !== null">
+  <div class="home" v-if="idUser !== null">
     <div class="band">
       <div ref="imgThumbnail" class="img-thumbnail">
         <img class="img" src="../images/onepiece.jpg" alt="" />
       </div>
       <div ref="thumbnail" class="band-thumbnail" v-show="isDisplayThumbnail">
-        <video ref="video" class="thumbnail" autoplay :muted="isMute" controls loop>
+        <video
+          ref="video"
+          class="thumbnail"
+          autoplay
+          :muted="isMute"
+          controls
+          loop
+        >
           <source src="../images/video.mp4" type="video/mp4" />
           <source src="movie.ogg" type="video/ogg" />
           Your browser does not support the video tag.
@@ -36,7 +43,7 @@
     <div class="trending">
       <Trending />
     </div>
-    <div class="continue-watch">
+    <div class="continue-watch" v-if="userStore.user?.watchings.length !== 0">
       <ContinueWatch />
     </div>
     <div class="wew">
@@ -49,23 +56,22 @@ import Trending from "../components/Trending.vue";
 import New from "../components/New.vue";
 import ContinueWatch from "../components/ContinueWatch.vue";
 import { onMounted, ref } from "vue";
-import { db } from "../firebase"
+import { db } from "../firebase";
+import { useUserStore } from "../composible/pinia";
 const idUser = JSON.parse(localStorage.getItem("idUser") || "");
-
+const userStore = useUserStore();
 const video = ref();
 const onWatch = () => {
   video.value.requestFullscreen();
-}
+};
 const imgThumbnail = ref<any>();
 const thumbnail = ref<any>();
 const isDisplayThumbnail = ref(false);
 const isMute = ref(true);
 const onPlayAudio = () => {
   isMute.value = !isMute.value;
-  console.log(db)
+  console.log(db);
 };
-
-
 
 onMounted(() => {
   const playVideo = imgThumbnail.value.addEventListener("mouseenter", () => {
@@ -82,9 +88,7 @@ onMounted(() => {
   color: white;
   position: relative;
   z-index: 2;
-  max-height: 102vh;
   width: 100%;
-  overflow: scroll;
 }
 .img-thumbnail {
   height: 100%;

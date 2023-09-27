@@ -6,7 +6,8 @@ import Loader from "./components/Loader.vue";
 import { useRouter } from "vue-router";
 import { onAuthStateChanged } from "firebase/auth";
 import { useGetMovies, useGetUsers } from "./composible/firebase";
-import { useLoaderStore } from "./composible/pinia";
+import { useLoaderStore, useScrollerStore } from "./composible/pinia";
+import { onMounted, ref } from "vue";
 // localStorage.setItem("idUser", JSON.stringify('6ywB6XsltQjOZbgZ82Ej'));
 // const idUser = JSON.parse(localStorage.getItem("idUser") || "");
 
@@ -22,6 +23,18 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 //>>>>>>
+const routerview = ref();
+const scrollerStore = useScrollerStore();
+onMounted(() => {
+  // Add background color to the header horizontal when the user scrolls down
+  routerview.value.addEventListener("scroll", () => {
+    if (routerview.value.scrollTop > 0) {
+      scrollerStore.scroller = true;
+    } else {
+      scrollerStore.scroller = false;
+    }
+  });
+});
 </script>
 
 <template>
@@ -30,7 +43,7 @@ onAuthStateChanged(auth, (user) => {
       <div class="headerpage">
         <HeaderPage />
       </div>
-      <div class="routerview">
+      <div class="routerview" ref="routerview">
         <router-view></router-view>
       </div>
       <div v-if="loaderStore.loader" class="load">
@@ -47,6 +60,8 @@ onAuthStateChanged(auth, (user) => {
 }
 .routerview {
   width: 80%;
+  max-height: 102vh;
+  overflow: scroll;
 }
 .headerpage {
   width: 20%;

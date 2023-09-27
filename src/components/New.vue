@@ -2,7 +2,7 @@
   <div class="trending">
     <div>
       <div>
-        <h4 class="title">Trending</h4>
+        <h4 class="title">New</h4>
       </div>
       <div>
         <Carousel
