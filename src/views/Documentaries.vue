@@ -23,18 +23,31 @@
         <button>Sort</button>
       </div>
       <div class="card-list">
-        <div class="card" v-for="movie in movies" :key="movie.title">
+        <div class="card" v-for="movie in store.movies" :key="movie.id">
           <div>
             <div class="card-item">
-              <div class="card-img">
-                <img class="img" :src="movie.thumbnail" alt="" />
-              </div>
-              <button class="btn-fav"><i class="far fa-heart"></i></button>
+              <button
+                v-for="favourite in storeUser.user?.favourites"
+                :key="favourite.id"
+                v-show="favourite.id === movie.id"
+                @click="onFavourite(movie, 'unfavourite')"
+                class="btn-fav-solid"
+              >
+                <i class="fas fa-heart"></i>
+              </button>
+              <button @click="onFavourite(movie, 'favourite')" class="btn-fav">
+                <i class="far fa-heart"></i>
+              </button>
+              <router-link :to="`/movie-details/${movie.id}`">
+                <div class="card-img">
+                  <img class="img" :src="movie.thumbnail" alt="" />
+                </div>
 
-              <div class="card-movie">
-                <h5 class="name">{{ movie.title }}</h5>
-                <p class="desc">{{ movie.desc }}</p>
-              </div>
+                <div class="card-movie">
+                  <h5 class="name">{{ movie.title }}</h5>
+                  <p class="desc">{{ movie.type }} | {{ movie.year }}</p>
+                </div>
+              </router-link>
             </div>
           </div>
         </div>
@@ -43,97 +56,22 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref } from "vue";
 import "vue3-carousel/dist/carousel.css";
-const movies = ref([
-  {
-    title: "Avatar 2",
-    desc: "2022 | Action",
-    thumbnail: "/src/images/avatar.jpg",
-  },
-  {
-    title: "The Breaking Bad",
-    desc: "2019 | Action",
-    thumbnail: "/src/images/thebreakingbad.jpg",
-  },
-  {
-    title: "Spiderman",
-    desc: "2021 | Fiction",
-    thumbnail: "/src/images/spiderman.jpg",
-  },
-  {
-    title: "The Witcher",
-    desc: "2020 | Horror",
-    thumbnail: "/src/images/witcher.jpg",
-  },
-  {
-    title: "Avatar 3",
-    desc: "2022 | Action",
-    thumbnail: "/src/images/avatar.jpg",
-  },
-  {
-    title: "The Breaking Bad 2",
-    desc: "2019 | Action",
-    thumbnail: "/src/images/thebreakingbad.jpg",
-  },
-  {
-    title: "Avatar 4",
-    desc: "2022 | Action",
-    thumbnail: "/src/images/avatar.jpg",
-  },
-  {
-    title: "The Breaking Bad 4",
-    desc: "2019 | Action",
-    thumbnail: "/src/images/thebreakingbad.jpg",
-  },
-  {
-    title: "Avatar 5",
-    desc: "2022 | Action",
-    thumbnail: "/src/images/avatar.jpg",
-  },
-  {
-    title: "The Breaking Bad 6",
-    desc: "2019 | Action",
-    thumbnail: "/src/images/thebreakingbad.jpg",
-  },
-  {
-    title: "Avatar 7",
-    desc: "2022 | Action",
-    thumbnail: "/src/images/avatar.jpg",
-  },
-  {
-    title: "The Breaking Bad 8",
-    desc: "2019 | Action",
-    thumbnail: "/src/images/thebreakingbad.jpg",
-  },
-  {
-    title: "Avatar 8",
-    desc: "2022 | Action",
-    thumbnail: "/src/images/avatar.jpg",
-  },
-  {
-    title: "The Breaking Bad 9",
-    desc: "2019 | Action",
-    thumbnail: "/src/images/thebreakingbad.jpg",
-  },
-  {
-    title: "Avatar 17",
-    desc: "2022 | Action",
-    thumbnail: "/src/images/avatar.jpg",
-  },
-  {
-    title: "The Breaking Bad 18",
-    desc: "2019 | Action",
-    thumbnail: "/src/images/thebreakingbad.jpg",
-  },
-]);
+import { useMoviesStore, useUserStore } from "../composible/pinia";
+import { useUpdateUser } from "../composible/firebase";
+const storeUser = useUserStore();
+const store = useMoviesStore();
+const onFavourite = (movie: any, type: any) => {
+  console.log(movie.id);
+  useUpdateUser({ movies: movie, type });
+};
 </script>
 
 <style scoped>
 .trending {
   padding-top: 7rem;
   /* max-height: calc(102vh - 100px); */
-  max-height: 102vh;
+  height: 100%;
   overflow: scroll;
   background-color: var(--dark-bg);
 }
@@ -195,6 +133,24 @@ const movies = ref([
   color: var(--primary-color);
 }
 .btn-fav i {
+  color: var(--primary-color);
+}
+.btn-fav-solid {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 5;
+  border-radius: 5px;
+  border: none;
+  padding-top: 3px;
+  background-color: rgb(255, 255, 255, 0.8);
+  color: var(--primary-color);
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: all 0.2s linear;
+}
+.btn-fav-solid:hover {
+  transform: scale(1.1);
   color: var(--primary-color);
 }
 .card-movie {

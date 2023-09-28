@@ -7,23 +7,42 @@
       <div>
         <Carousel
           :breakpoints="breakpoints"
-          :autoplay="5000"
+          :autoplay="9000"
           :wrap-around="true"
           :transition="500"
+          :snap-align="'start'"
           pause-autoplay-on-hover
         >
           <Slide v-for="movie in store.movies" :key="movie.id">
             <div class="card">
               <div class="card-item">
-                <div class="card-img">
-                  <img class="img" :src="movie.thumbnail" alt="" />
-                </div>
-                <button class="btn-fav"><i class="far fa-heart"></i></button>
+                <button
+                  v-for="favourite in userStore.user?.favourites"
+                  :key="favourite.id"
+                  v-show="favourite.id === movie.id"
+                  @click="onFavourite(movie, 'unfavourite')"
+                  class="btn-fav-solid"
+                >
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button
+                  @click="onFavourite(movie, 'favourite')"
+                  class="btn-fav"
+                >
+                  <i class="far fa-heart"></i>
+                </button>
+                <router-link :to="`/movie-details/${movie.id}`">
+                  <div class="card-img">
+                    <img class="img" :src="movie.thumbnail" alt="" />
+                  </div>
 
-                <div class="card-movie">
-                  <h5 class="name">{{ movie.title }}</h5>
-                  <p class="desc">{{ movie.type }} | {{ movie.year }}</p>
-                </div>
+                  <div class="card-movie">
+                    <h5 class="name ellipsis">
+                      {{ movie.title }}
+                    </h5>
+                    <p class="desc">{{ movie.type }} | {{ movie.year }}</p>
+                  </div>
+                </router-link>
               </div>
             </div>
           </Slide>
@@ -41,8 +60,24 @@
 import { ref } from "vue";
 import "vue3-carousel/dist/carousel.css";
 import { Carousel, Navigation, Pagination, Slide } from "vue3-carousel";
-import { useMoviesStore } from "../composible/pinia";
+import { useMoviesStore, useUserStore } from "../composible/pinia";
+import { useUpdateUser } from "../composible/firebase";
 const store = useMoviesStore();
+const userStore = useUserStore();
+const onFavourite = (movie: any, type: any) => {
+  console.log(movie.id);
+  useUpdateUser({ movies: movie, type });
+};
+
+// const idFavourite = computed(() => {
+//   return store.movies.favourite
+// });
+// Vấn đề là nó check idUser trong movie.userFavourite khi ... chua get data het
+// đang làm cái button hien thi solid heart khi dã fav và tat khi đã unfav
+const idUser = JSON.parse(localStorage.getItem("idUser") || "");
+
+console.log(idUser);
+console.log(store.movies);
 const breakpoints = ref({
   500: {
     itemsToShow: 2,
@@ -52,7 +87,7 @@ const breakpoints = ref({
   },
   // 1024 and up
   1024: {
-    itemsToShow: 4,
+    itemsToShow: 5,
   },
 });
 </script>
@@ -79,6 +114,7 @@ const breakpoints = ref({
   top: 5px;
   right: 5px;
   border-radius: 5px;
+  z-index: 3;
   border: none;
   padding-top: 3px;
   background-color: rgb(255, 255, 255, 0.8);
@@ -90,6 +126,24 @@ const breakpoints = ref({
   transform: scale(1.1);
   color: var(--primary-color);
 }
+.btn-fav-solid {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 5;
+  border-radius: 5px;
+  border: none;
+  padding-top: 3px;
+  background-color: rgb(255, 255, 255, 0.8);
+  color: var(--primary-color);
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: all 0.2s linear;
+}
+.btn-fav-solid:hover {
+  transform: scale(1.1);
+  color: var(--primary-color);
+}
 .card-movie {
   position: absolute;
   bottom: 0;
@@ -97,6 +151,8 @@ const breakpoints = ref({
   right: 0;
   padding: 0.3rem 0;
   background-color: rgba(11, 11, 11, 0.9);
+  color: white;
+
   /* left: calc(50% - (104px / 2)); */
 }
 .card .name {

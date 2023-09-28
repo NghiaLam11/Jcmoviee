@@ -26,15 +26,28 @@
         <div class="card" v-for="movie in store.movies" :key="movie.id">
           <div>
             <div class="card-item">
-              <div class="card-img">
-                <img class="img" :src="movie.thumbnail" alt="" />
-              </div>
-              <button class="btn-fav"><i class="far fa-heart"></i></button>
+              <button
+                v-for="favourite in storeUser.user?.favourites"
+                :key="favourite.id"
+                v-show="favourite.id === movie.id"
+                @click="onFavourite(movie, 'unfavourite')"
+                class="btn-fav-solid"
+              >
+                <i class="fas fa-heart"></i>
+              </button>
+              <button @click="onFavourite(movie, 'favourite')" class="btn-fav">
+                <i class="far fa-heart"></i>
+              </button>
+              <router-link :to="`/movie-details/${movie.id}`">
+                <div class="card-img">
+                  <img class="img" :src="movie.thumbnail" alt="" />
+                </div>
 
-              <div class="card-movie">
-                <h5 class="name">{{ movie.title }}</h5>
-                <p class="desc">{{ movie.desc }}</p>
-              </div>
+                <div class="card-movie">
+                  <h5 class="name">{{ movie.title }}</h5>
+                  <p class="desc">{{ movie.type }} | {{ movie.year }}</p>
+                </div>
+              </router-link>
             </div>
           </div>
         </div>
@@ -44,16 +57,21 @@
 </template>
 <script lang="ts" setup>
 import "vue3-carousel/dist/carousel.css";
-import { useMoviesStore } from "../composible/pinia";
+import { useMoviesStore, useUserStore } from "../composible/pinia";
+import { useUpdateUser } from "../composible/firebase";
+const storeUser = useUserStore();
 const store = useMoviesStore();
-
+const onFavourite = (movie: any, type: any) => {
+  console.log(movie.id);
+  useUpdateUser({ movies: movie, type });
+};
 console.log(store.movies, "get movies");
 </script>
 
 <style scoped>
 .trending {
   padding-top: 7rem;
-  height: 102vh;
+  height: 100%;
   overflow: scroll;
   background-color: var(--dark-bg);
 }
@@ -115,6 +133,24 @@ console.log(store.movies, "get movies");
   color: var(--primary-color);
 }
 .btn-fav i {
+  color: var(--primary-color);
+}
+.btn-fav-solid {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 5;
+  border-radius: 5px;
+  border: none;
+  padding-top: 3px;
+  background-color: rgb(255, 255, 255, 0.8);
+  color: var(--primary-color);
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: all 0.2s linear;
+}
+.btn-fav-solid:hover {
+  transform: scale(1.1);
   color: var(--primary-color);
 }
 .card-movie {

@@ -159,14 +159,25 @@ const useUpdateUser = (movie: any) => {
     console.log("CCCCCCCCCc");
     if (store.user?.watchings.length === 0) {
       store.user?.watchings.push(movie.movies);
+      console.log("AAAAAAAA");
     }
-    store.user?.watchings.forEach((watching: any) => {
-      if (watching.id !== movie.movies.id) {
-        store.user?.watchings.push(movie.movies);
-        console.log("BBBBBBBBBB");
-      }
-    });
+    // store.user?.watchings.forEach((watching: any) => {
+    //   if (watching.id !== movie.movies.id) {
+    //     store.user?.watchings.push(movie.movies);
+    //     console.log("BBBBBBBBBB", watching.id, movie.movies.id);
+    //   }
+    // });
 
+    const checkHasWatching = store.user?.watchings
+      .map((watching: any) => {
+        return watching.id;
+      })
+      .indexOf(movie.movies.id);
+    console.log(checkHasWatching);
+    if (checkHasWatching === -1) {
+      store.user?.watchings.push(movie.movies);
+      console.log("BBBBBBBBBB");
+    }
     data.value = {
       watchings: store.user?.watchings,
     };

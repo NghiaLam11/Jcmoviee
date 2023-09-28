@@ -43,11 +43,11 @@
     <div class="trending">
       <Trending />
     </div>
-    <div class="continue-watch" v-if="userStore.user?.watchings.length !== 0">
-      <ContinueWatch />
-    </div>
-    <div class="wew">
+    <div class="new">
       <New />
+    </div>
+    <div class="continue-watch">
+      <ContinueWatch />
     </div>
   </div>
 </template>
@@ -57,9 +57,7 @@ import New from "../components/New.vue";
 import ContinueWatch from "../components/ContinueWatch.vue";
 import { onMounted, ref } from "vue";
 import { db } from "../firebase";
-import { useUserStore } from "../composible/pinia";
 const idUser = JSON.parse(localStorage.getItem("idUser") || "");
-const userStore = useUserStore();
 const video = ref();
 const onWatch = () => {
   video.value.requestFullscreen();

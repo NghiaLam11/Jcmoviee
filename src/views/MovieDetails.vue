@@ -30,7 +30,24 @@
         </p>
         <div class="btn-group">
           <button @click="onWatch" class="btn-watch">Watch now</button>
-          <button class="btn-fav"><i class="far fa-heart"></i></button>
+          <div class="btn-group-fav">
+            <button
+              v-for="favourite in storeUser.user?.favourites"
+              :key="favourite.id"
+              v-show="favourite.id === store.movieDetail?.id"
+              @click="onFavourite(store.movieDetail, 'unfavourite')"
+              class="btn-fav-solid"
+            >
+              <i class="fas fa-heart"></i>
+            </button>
+            <button
+              class="btn-fav"
+              @click="onFavourite(store.movieDetail, 'favourite')"
+            >
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+
           <button
             v-if="isDisplayThumbnail"
             @click="onPlayAudio"
@@ -94,7 +111,11 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
-import { useMoviesDetailStore, useLoaderStore } from "../composible/pinia";
+import {
+  useMoviesDetailStore,
+  useLoaderStore,
+  useUserStore,
+} from "../composible/pinia";
 import Loader from "../components/Loader.vue";
 import { useRoute } from "vue-router";
 import {
@@ -103,6 +124,7 @@ import {
   useUpdateUser,
 } from "../composible/firebase";
 const store = useMoviesDetailStore();
+const storeUser = useUserStore();
 const loaderStore = useLoaderStore();
 const route = useRoute();
 useGetMovieDetail(route.params.id);
@@ -115,6 +137,7 @@ const isMute = ref(true);
 const onPlayAudio = () => {
   isMute.value = !isMute.value;
 };
+
 const onWatch = () => {
   isDisplayThumbnail.value = true;
   setTimeout(() => {
@@ -148,6 +171,10 @@ function onToggleReadDesc() {
     moreText.value.style.display = "inline";
   }
 }
+const onFavourite = (movie: any, type: any) => {
+  console.log(movie.id);
+  useUpdateUser({ movies: movie, type });
+};
 const onComment = () => {
   useUpdateMovie(store.movieDetail, commentText.value);
   commentText.value = "";
@@ -210,7 +237,11 @@ const onComment = () => {
 }
 .btn-group {
   margin-top: 1rem;
+  display: flex;
   margin-bottom: 2rem;
+}
+.btn-group-fav {
+  position: relative;
 }
 .btn-group button {
   padding: 0.5rem 1rem;
@@ -222,6 +253,15 @@ const onComment = () => {
   margin: 0 0.5rem;
 }
 .btn-fav:hover {
+  animation: shakeBtn 0.3s linear forwards;
+}
+.btn-fav-solid {
+  margin: 0 0.5rem;
+  color: var(--primary-color);
+  position: absolute;
+  z-index: 4;
+}
+.btn-fav-solid:hover {
   animation: shakeBtn 0.3s linear forwards;
 }
 .btn-watch {

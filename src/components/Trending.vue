@@ -14,34 +14,35 @@
         >
           <Slide v-for="movie in store.movies" :key="movie.id">
             <div class="card">
-              <router-link :to="`/movie-details/${movie.id}`">
-                <div class="card-item">
+              <div class="card-item">
+                <button
+                  v-for="favourite in userStore.user?.favourites"
+                  :key="favourite.id"
+                  v-show="favourite.id === movie.id"
+                  @click="onFavourite(movie, 'unfavourite')"
+                  class="btn-fav-solid"
+                >
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button
+                  @click="onFavourite(movie, 'favourite')"
+                  class="btn-fav"
+                >
+                  <i class="far fa-heart"></i>
+                </button>
+                <router-link :to="`/movie-details/${movie.id}`">
                   <div class="card-img">
                     <img class="img" :src="movie.thumbnail" alt="" />
                   </div>
-                  <button
-                    v-for="favourite in userStore.user?.favourites"
-                    :key="favourite.id"
-                    v-show="favourite.id === movie.id"
-                    @click="onFavourite(movie, 'unfavourite')"
-                    class="btn-fav-solid"
-                  >
-                    <i class="fas fa-heart"></i>
-                  </button>
-                  <button
-                    @click="onFavourite(movie, 'favourite')"
-                    class="btn-fav"
-                  >
-                    <i class="far fa-heart"></i>
-                  </button>
+
                   <div class="card-movie">
-                    <h5 class="name">
+                    <h5 class="name ellipsis">
                       {{ movie.title }}
                     </h5>
                     <p class="desc">{{ movie.type }} | {{ movie.year }}</p>
                   </div>
-                </div>
-              </router-link>
+                </router-link>
+              </div>
             </div>
           </Slide>
 
@@ -106,7 +107,6 @@ const breakpoints = ref({
 .card-item {
   position: relative;
   cursor: pointer;
-  color: white;
 }
 .btn-fav {
   position: absolute;
@@ -150,6 +150,8 @@ const breakpoints = ref({
   right: 0;
   padding: 0.3rem 0;
   background-color: rgba(11, 11, 11, 0.9);
+  color: white;
+
   /* left: calc(50% - (104px / 2)); */
 }
 .card .name {

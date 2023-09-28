@@ -8,7 +8,6 @@ export interface Movies {
     type: string,
     year: number,
     id: string,
-    userFavourite: string[];
     comments: any[];
 }
 export interface User {
