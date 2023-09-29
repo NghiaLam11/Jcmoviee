@@ -21,7 +21,7 @@
       <div class="infor-movie">
         <div>
           <h2>
-            <b class="name">{{ store.movieDetail?.title }}</b>
+            <b class="name ellipsis">{{ store.movieDetail?.title }}</b>
           </h2>
         </div>
         <p class="type">

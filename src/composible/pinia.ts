@@ -3,8 +3,14 @@ import { ref } from "vue";
 import { Movies, User } from "./type";
 export const useMoviesStore = defineStore("movies", () => {
   const movies = ref<Movies[]>([]);
+  const moviesSort = ref<Movies[]>([]);
+  const moviesSearch = ref<Movies[]>([]);
+  const moviesSearchText = ref<string>();
   return {
     movies,
+    moviesSort,
+    moviesSearch,
+    moviesSearchText
   };
 });
 

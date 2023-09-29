@@ -29,7 +29,7 @@
               </div>
 
               <div class="card-movie">
-                <h5 class="name">{{ movie.title }}</h5>
+                <h5 class="name ellipsis">{{ movie.title }}</h5>
                 <p class="desc">{{ movie.type }} | {{ movie.year }}</p>
               </div>
             </router-link>

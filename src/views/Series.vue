@@ -2,28 +2,23 @@
   <div class="trending">
     <div>
       <div>
-        <h4 class="title">Series</h4>
+        <h4 class="title">SERIES</h4>
       </div>
       <div class="sort">
-        <select name="" id="">
-          <option value="">Year</option>
-          <option value="">2021</option>
-          <option value="">2022</option>
+        <select v-model="year" name="" id="">
+          <option value="Year">Year</option>
+          <option value="2021">2021</option>
+          <option value="2022">2022</option>
         </select>
-        <select name="" id="">
-          <option value="">Type</option>
-          <option value="">Action</option>
-          <option value="">Fiction</option>
+        <select v-model="type" name="" id="">
+          <option value="Type">Type</option>
+          <option value="Action">Action</option>
+          <option value="Fiction">Fiction</option>
         </select>
-        <select name="" id="">
-          <option value="">Country</option>
-          <option value="">Vietnam</option>
-          <option value="">Korea</option>
-        </select>
-        <button>Sort</button>
+        <button @click="onSort">Sort</button>
       </div>
       <div class="card-list">
-        <div class="card" v-for="movie in store.movies" :key="movie.id">
+        <div class="card" v-for="movie in store.moviesSort" :key="movie.id">
           <div>
             <div class="card-item">
               <button
@@ -39,15 +34,15 @@
                 <i class="far fa-heart"></i>
               </button>
               <router-link :to="`/movie-details/${movie.id}`">
-              <div class="card-img">
-                <img class="img" :src="movie.thumbnail" alt="" />
-              </div>
+                <div class="card-img">
+                  <img class="img" :src="movie.thumbnail" alt="" />
+                </div>
 
-              <div class="card-movie">
-                <h5 class="name">{{ movie.title }}</h5>
-                <p class="desc">{{ movie.type }} | {{ movie.year }}</p>
-              </div>
-            </router-link>
+                <div class="card-movie">
+                  <h5 class="name ellipsis">{{ movie.title }}</h5>
+                  <p class="desc">{{ movie.type }} | {{ movie.year }}</p>
+                </div>
+              </router-link>
             </div>
           </div>
         </div>
@@ -58,20 +53,57 @@
 <script lang="ts" setup>
 import "vue3-carousel/dist/carousel.css";
 import { useMoviesStore, useUserStore } from "../composible/pinia";
-import { useUpdateUser } from "../composible/firebase";
+import { useGetMovies, useUpdateUser } from "../composible/firebase";
+import { ref } from "vue";
+import { Movies } from "../composible/type";
+useGetMovies();
 const storeUser = useUserStore();
 const store = useMoviesStore();
+const movies = ref<Movies[]>([]);
+const year = ref("Year");
+const type = ref("Type");
 const onFavourite = (movie: any, type: any) => {
-  console.log(movie.id);
   useUpdateUser({ movies: movie, type });
+};
+
+const onSort = () => {
+  // SELECTED BOTH
+  if (year.value !== "Year" && type.value !== "Type") {
+    store.movies.map((movie: any) => {
+      if (movie.year === Number(year.value) && movie.type === type.value) {
+        movies.value.push(movie);
+      }
+    });
+    // SELECTED YEAR BUT NON TYPE
+  } else if (year.value !== "Year") {
+    store.movies.map((movie: any) => {
+      if (movie.year === Number(year.value)) {
+        movies.value.push(movie);
+      }
+    });
+    // SELECTED TYPE BUT NON YEAR
+  } else if (type.value !== "Type") {
+    store.movies.map((movie: any) => {
+      if (movie.type === type.value) {
+        movies.value.push(movie);
+      }
+    });
+  }
+  // ARGUMENT
+  store.moviesSort = movies.value;
+  // RESET MOVIES ARRAY WHEN SORTED
+  movies.value = [];
+  // NON SELECTED BOTH
+  if (type.value === "Type" && year.value === "Year") {
+    store.moviesSort = store.movies;
+  }
 };
 </script>
 
 <style scoped>
 .trending {
   padding-top: 7rem;
-  /* max-height: calc(102vh - 100px); */
-  max-height: 102vh;
+  height: 100%;
   overflow: scroll;
   background-color: var(--dark-bg);
 }

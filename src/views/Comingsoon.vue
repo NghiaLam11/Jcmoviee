@@ -14,7 +14,7 @@
                 <button class="btn-fav"><i class="far fa-heart"></i></button>
   
                 <div class="card-movie">
-                  <h5 class="name">{{ movie.title }}</h5>
+                  <h5 class="name ellipsis">{{ movie.title }}</h5>
                   <p class="desc">{{ movie.desc }}</p>
                 </div>
               </div>
