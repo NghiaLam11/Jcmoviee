@@ -2,7 +2,7 @@
   <div class="home" v-if="idUser !== null">
     <div class="band">
       <div ref="imgThumbnail" @mouseenter="onPlayVideo" class="img-thumbnail">
-        <img class="img" src="../images/onepiece.jpg" alt="" />
+        <img class="img" :src="movieBand.thumbnail" alt="" />
       </div>
       <div ref="thumbnail" class="band-thumbnail" v-show="isDisplayThumbnail">
         <video
@@ -13,7 +13,7 @@
           controls
           loop
         >
-          <source src="../images/video.mp4" type="video/mp4" />
+          <source :src="movieBand.video" type="video/mp4" />
           <source src="movie.ogg" type="video/ogg" />
           Your browser does not support the video tag.
         </video>
@@ -21,14 +21,30 @@
 
       <div class="infor-movie">
         <div>
-          <h2><b class="name">One Piece</b></h2>
+          <h2><b class="name">{{ movieBand.title }}</b></h2>
         </div>
         <p class="desc">
-          <span>Anime</span> | <span>Family</span> | <span>2023</span>
+          <span>{{ movieBand.type }}</span> | <span>{{ movieBand.year }}</span>
         </p>
         <div class="btn-group">
           <button @click="onWatch" class="btn-watch">Watch now</button>
-          <button class="btn-fav"><i class="far fa-heart"></i></button>
+          <div class="btn-group-fav">
+            <button
+              v-for="favourite in storeUser.user?.favourites"
+              :key="favourite.id"
+              v-show="favourite.id === movieBand?.id"
+              @click="onFavourite(movieBand, 'unfavourite')"
+              class="btn-fav-solid"
+            >
+              <i class="fas fa-heart"></i>
+            </button>
+            <button
+              class="btn-fav"
+              @click="onFavourite(movieBand, 'favourite')"
+            >
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
           <button
             v-if="isDisplayThumbnail"
             @click="onPlayAudio"
@@ -50,19 +66,29 @@
       <ContinueWatch />
     </div>
   </div>
-  <!-- <div class="movies-search" v-if="storeMovies.moviesSearchText !== ''">
-    <MoviesSearch />
-  </div> -->
 </template>
 <script lang="ts" setup>
 import Trending from "../components/Trending.vue";
 import New from "../components/New.vue";
-// import MoviesSearch from "../components/MoviesSearch.vue";
 import ContinueWatch from "../components/ContinueWatch.vue";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { db } from "../firebase";
-// import { useMoviesStore } from "../composible/pinia";
-// const storeMovies = useMoviesStore();
+import { useMoviesStore, useUserStore } from "../composible/pinia";
+import { useUpdateUser } from "../composible/firebase";
+const storeMovies = useMoviesStore();
+const storeUser = useUserStore();
+const movieBand = computed(() => {
+  const randomIndex = Math.floor(Math.random() * storeMovies.movies.length);
+
+  // get random item
+  const item = storeMovies.movies[randomIndex];
+
+  return item;
+});
+const onFavourite = (movie: any, type: any) => {
+  console.log(movie.id);
+  useUpdateUser({ movies: movie, type });
+};
 const idUser = JSON.parse(localStorage.getItem("idUser") || "");
 const video = ref();
 const onWatch = () => {
@@ -96,6 +122,9 @@ const onPlayVideo = () => {
   position: absolute;
   bottom: 10%;
   left: 0;
+}
+.img {
+  width: 100%;
 }
 .band {
   height: 60vh;
@@ -131,7 +160,11 @@ const onPlayVideo = () => {
   font-size: 0.9rem;
   color: rgb(255, 255, 255, 0.7);
 }
+.btn-group-fav {
+  position: relative;
+}
 .btn-group {
+  display: flex;
   margin-top: 1rem;
   margin-bottom: 2rem;
 }
@@ -145,6 +178,15 @@ const onPlayVideo = () => {
   margin: 0 0.5rem;
 }
 .btn-fav:hover {
+  animation: shakeBtn 0.3s linear forwards;
+}
+.btn-fav-solid {
+  margin: 0 0.5rem;
+  color: var(--primary-color);
+  position: absolute;
+  z-index: 4;
+}
+.btn-fav-solid:hover {
   animation: shakeBtn 0.3s linear forwards;
 }
 .btn-watch {

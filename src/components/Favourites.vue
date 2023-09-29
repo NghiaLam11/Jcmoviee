@@ -7,7 +7,6 @@
       <div>
         <Carousel
           :breakpoints="breakpoints"
-          :autoplay="5000"
           :snap-align="'start'"
           :transition="500"
         >
@@ -69,7 +68,7 @@ const breakpoints = ref({
   },
   // 1024 and up
   1024: {
-    itemsToShow: 4,
+    itemsToShow: 3,
   },
 });
 </script>
@@ -102,6 +101,7 @@ const breakpoints = ref({
   position: absolute;
   top: 5px;
   right: 5px;
+  z-index: 4;
   border-radius: 5px;
   border: none;
   padding-top: 3px;
@@ -142,6 +142,7 @@ const breakpoints = ref({
   right: 0;
   padding: 0.3rem 0;
   background-color: rgba(11, 11, 11, 0.9);
+  color: white;
   /* left: calc(50% - (104px / 2)); */
 }
 .card .name {
