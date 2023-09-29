@@ -1,7 +1,7 @@
 <template>
   <div class="home" v-if="idUser !== null">
     <div class="band">
-      <div ref="imgThumbnail" class="img-thumbnail">
+      <div ref="imgThumbnail" @mouseenter="onPlayVideo" class="img-thumbnail">
         <img class="img" src="../images/onepiece.jpg" alt="" />
       </div>
       <div ref="thumbnail" class="band-thumbnail" v-show="isDisplayThumbnail">
@@ -50,13 +50,19 @@
       <ContinueWatch />
     </div>
   </div>
+  <!-- <div class="movies-search" v-if="storeMovies.moviesSearchText !== ''">
+    <MoviesSearch />
+  </div> -->
 </template>
 <script lang="ts" setup>
 import Trending from "../components/Trending.vue";
 import New from "../components/New.vue";
+// import MoviesSearch from "../components/MoviesSearch.vue";
 import ContinueWatch from "../components/ContinueWatch.vue";
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import { db } from "../firebase";
+// import { useMoviesStore } from "../composible/pinia";
+// const storeMovies = useMoviesStore();
 const idUser = JSON.parse(localStorage.getItem("idUser") || "");
 const video = ref();
 const onWatch = () => {
@@ -70,15 +76,11 @@ const onPlayAudio = () => {
   isMute.value = !isMute.value;
   console.log(db);
 };
-
-onMounted(() => {
-  const playVideo = imgThumbnail.value.addEventListener("mouseenter", () => {
-    clearTimeout(playVideo);
-    setTimeout(() => {
-      isDisplayThumbnail.value = true;
-    }, 3000);
-  });
-});
+const onPlayVideo = () => {
+  setTimeout(() => {
+    isDisplayThumbnail.value = true;
+  }, 3000);
+};
 </script>
 <style scoped>
 .home {

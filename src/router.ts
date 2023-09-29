@@ -11,6 +11,7 @@ import MovieDetails from "./views/MovieDetails.vue"
 import Signup from "./views/Signup.vue"
 import Signin from "./views/Signin.vue"
 import Welcome from "./views/Welcome.vue"
+import MoviesSearch from "./views/MoviesSearch.vue"
 
 
 const routes = [
@@ -25,6 +26,7 @@ const routes = [
   { path: "/welcome", component: Welcome },
   { path: "/signin", component: Signin },
   { path: "/signup", component: Signup },
+  { path: "/movies-search", component: MoviesSearch },
   { path: "/movie-details/:id", component: MovieDetails },
 ];
 

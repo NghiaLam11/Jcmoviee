@@ -60,8 +60,9 @@ onMounted(() => {
 }
 .routerview {
   width: 80%;
-  max-height: 102vh;
+  height: 100vh;
   overflow: scroll;
+  background-color: var(--dark-bg);
 }
 .headerpage {
   width: 20%;

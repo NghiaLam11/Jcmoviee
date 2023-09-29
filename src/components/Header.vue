@@ -69,18 +69,18 @@
         <li @click="openNotification"><i class="far fa-bell"></i></li>
         <li>
           <router-link to="profile" class="profile"
-            ><img class="avatar" :src="store.user?.avatar" alt="" /><span>{{
-              store.user?.name
+            ><img class="avatar" :src="storeUser.user?.avatar" alt="" /><span>{{
+              storeUser.user?.name
             }}</span></router-link
           >
         </li>
       </ul>
       <div ref="search" class="search">
         <i @click="closeSearch" class="fas fa-caret-up"></i>
-        <div class="search-group">
-          <input placeholder="Ex: One Piece" type="text" name="" id="" />
+        <form @submit.prevent="onSearch" class="search-group">
+          <input placeholder="Ex: One Piece" type="text" v-model="searchText" />
           <i class="fas fa-search"></i>
-        </div>
+        </form>
       </div>
       <div ref="notification" class="notification">
         <h3>Notification</h3>
@@ -206,11 +206,21 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { useLogOutUser } from "../composible/firebase";
-import { useScrollerStore, useUserStore } from "../composible/pinia";
-const store = useUserStore();
+import {
+  useScrollerStore,
+  useUserStore,
+  useMoviesStore,
+} from "../composible/pinia";
+import { useRouter } from "vue-router";
+import { Movies } from "../composible/type";
+const router = useRouter();
+
+const storeUser = useUserStore();
+const storeMovies = useMoviesStore();
 const search = ref();
 const notification = ref();
 const scrollerStore = useScrollerStore();
+const searchText = ref("");
 
 const onSignout = () => {
   useLogOutUser();
@@ -227,6 +237,20 @@ const openNotification = () => {
 };
 const closeNotification = () => {
   notification.value.style.right = "-100%";
+};
+const moviesSearch = ref<Movies[]>([]);
+const onSearch = () => {
+  // storeMovies.moviesSearchText = searchText.value
+  storeMovies.movies.forEach((movie: Movies) => {
+    if (movie.title.toLowerCase() == searchText.value.toLowerCase()) {
+      moviesSearch.value.push(movie);
+    }
+  });
+  storeMovies.moviesSearch = moviesSearch.value;
+  moviesSearch.value = [];
+  searchText.value = "";
+
+  router.push("/movies-search");
 };
 </script>
 <style scoped>
