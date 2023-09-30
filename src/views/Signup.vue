@@ -13,6 +13,8 @@
           required
           v-model="name"
         />
+        <span class="error" v-if="name.length < 3">User's name must have more than 3 character</span>
+
       </div>
       <div class="form-group">
         <label for="email">Email</label>
@@ -34,6 +36,8 @@
           required
         />
       </div>
+      <span class="error" v-if="password.length < 6">User's password must have more than 6 character</span>
+
       <div class="btn-group">
         <button type="submit" class="btn-signup">Sign up</button>
         <router-link to="/welcome"

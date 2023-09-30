@@ -13,6 +13,7 @@ export interface Movies {
 export interface User {
     name: string,
     avatar: string,
+    avatarName: string,
     bio: string,
     email: string,
     favourites: Movies[],

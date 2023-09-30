@@ -98,6 +98,7 @@ const breakpoints = ref({
   position: absolute;
   top: 5px;
   right: 5px;
+  z-index: 4;
   border-radius: 5px;
   border: none;
   padding-top: 3px;

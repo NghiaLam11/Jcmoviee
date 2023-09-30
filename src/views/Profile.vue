@@ -3,24 +3,47 @@
     <div class="user">
       <div class="avatar">
         <img class="img" :src="store.user?.avatar" alt="" />
-        <div ref="setting" class="setting"><i class="fas fa-user-cog"></i></div>
+        <div @click="onToggleSetting" class="setting">
+          <i class="fas fa-user-cog"></i>
+        </div>
       </div>
       <div class="infor">
-        <h4 class="name">Jclahi</h4>
+        <h4 class="name">{{ store.user?.name }}</h4>
         <p class="bio">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          {{ store.user?.bio }}
         </p>
       </div>
-      <!-- <div ref="update" class="update">
-        <form action="">
-          <input class="custom-file-input" type="file" /><input
+      <div v-if="isDisplaySettings" ref="update" class="update">
+        <form @submit.prevent="onChange">
+          <div class="change-avatar">
+            <input
+              class="custom-file-input"
+              @change="onLinkAvatar"
+              type="file"
+            /><img :src="store.user?.avatar" alt="thumbnail" />
+          </div>
+
+          <input
+            class="update-name"
+            v-model="name"
             placeholder="Change your name"
             type="text"
           />
-          <input placeholder="Change your bio" type="text" />
-          <button>Change</button>
+          <span class="error" v-if="name.length < 3">User's name must have more than 3 character</span>
+          <input
+            class="update-bio"
+            v-model="bio"
+            placeholder="Change your bio"
+            type="text"
+          />
+          <span class="error" v-if="bio.length > 100">User's name must have less than 100 character</span>
+
+          <div class="btn-group">
+            <button @click="onToggleSetting">Back</button
+            ><button type="submit">Change</button>
+          </div>
         </form>
-      </div> -->
+      </div>
     </div>
     <div class="continue-watch">
       <ContinueWatch />
@@ -37,10 +60,39 @@
 import ContinueWatch from "../components/ContinueWatch.vue";
 import Favourites from "../components/Favourites.vue";
 import Watched from "../components/Watched.vue";
-const store = useUserStore()
+const store = useUserStore();
 import { ref } from "vue";
 import { useUserStore } from "../composible/pinia";
-const setting = ref();
+import { useUpdateAvatar } from "../composible/firebase";
+const bio = ref();
+const name = ref();
+const isDisplaySettings = ref(false);
+// const srcImgReader = ref<string | ArrayBuffer>("");
+// const reader = new FileReader();
+const onToggleSetting = () => {
+  bio.value = store.user?.bio;
+  name.value = store.user?.name;
+  isDisplaySettings.value = !isDisplaySettings.value;
+};
+const file = ref();
+const onLinkAvatar = (e: any) => {
+  file.value = e.target.files[0];
+};
+const onChange = () => {
+  if (name.value.length > 2) {
+    console.log(file.value);
+    isDisplaySettings.value = !isDisplaySettings.value;
+    useUpdateAvatar({
+      fileName:
+        file.value?.name === undefined
+          ? store.user?.avatarName
+          : file.value.name,
+      file: file.value,
+      name: name.value,
+      bio: bio.value,
+    });
+  }
+};
 </script>
 <style scoped>
 .profile {
@@ -97,7 +149,6 @@ const setting = ref();
 }
 
 .update form input {
-  margin: 0.3rem 0;
   color: #000;
   background-color: #fff;
   outline: none;
@@ -106,7 +157,7 @@ const setting = ref();
 
 .update form button {
   cursor: pointer;
-  margin: 0.3rem 0;
+  margin: 0.1rem 0;
 }
 
 .custom-file-input::-webkit-file-upload-button {
@@ -115,23 +166,22 @@ const setting = ref();
 .custom-file-input::before {
   content: "Change your avatar";
   display: inline-block;
-  background: linear-gradient(top, #f9f9f9, #e3e3e3);
+  background: linear-gradient(to top, #012962, #00303d);
+  color: white;
   border: 1px solid #999;
   border-radius: 3px;
   padding: 5px 8px;
   outline: none;
   white-space: nowrap;
   cursor: pointer;
-  text-shadow: 1px 1px #fff;
   font-weight: 700;
   font-size: 10pt;
   width: 100%;
+  transition: all 0.4s ease-in-out;
 }
 .custom-file-input:hover::before {
   border-color: black;
-}
-.custom-file-input:active::before {
-  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+  transform: scale(1.03);
 }
 .setting {
   position: absolute;
@@ -153,6 +203,43 @@ const setting = ref();
 }
 .setting i:hover {
   text-shadow: -1px 1px 5px #cccccc;
+}
+.change-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.5rem 0 1.5rem 0;
+}
+.change-avatar input {
+  width: 50%;
+  padding: 0.4rem 0.5rem;
+  background: linear-gradient(to top, #aa01f3, #00b3ff);
+
+}
+.change-avatar img {
+  width: 50px;
+}
+.update-name,
+.update-bio {
+  padding: 0.7rem 1rem;
+  font-size: 0.85rem;
+}
+.update-bio {
+  margin: 1.5rem 0 0rem 0;
+}
+.btn-group {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: space-around;
+}
+.btn-group button {
+  padding: 0.3rem 0.7rem;
+}
+.error {
+  color: red;
+  font-size: 0.7rem;
+  margin-left: 0.2rem;
+  text-align: start;
 }
 .user {
   text-align: center;

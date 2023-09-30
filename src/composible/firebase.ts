@@ -1,4 +1,4 @@
-import { auth, db } from "../firebase";
+import { auth, db, storage } from "../firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -20,6 +20,12 @@ import {
   useUserStore,
 } from "./pinia";
 import { ref } from "vue";
+import {
+  uploadBytes,
+  ref as storageRef,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 
 const useGetMovies = () => {
   const loaderStore = useLoaderStore();
@@ -103,9 +109,9 @@ const useAddUser = (user: any) => {
     name: user.name,
     email: user.email,
     favourites: [],
-    bio: "English",
+    bio: "This is a bio.",
     avatar:
-      "https://firebasestorage.googleapis.com/v0/b/jcmoviee.appspot.com/o/lion.png?alt=media&token=592f82a0-6474-493b-a081-5858e6a98667",
+      "https://firebasestorage.googleapis.com/v0/b/jcmoviee.appspot.com/o/lamhiennghia%20(1).png?alt=media&token=d25f8b26-9fcf-4688-9a5e-d554883dead9&_gl=1*1yk1l5f*_ga*MTg3MDczNTI2NS4xNjg1NTA5OTY0*_ga_CW55HF8NVT*MTY5NTk5MzMyMC4zNy4xLjE2OTU5OTMzNzkuMS4wLjA",
     watched: [],
     watchings: [],
   };
@@ -257,9 +263,81 @@ const useLogOutUser = () => {
       console.log(error.message);
     });
 };
+const useDeleteOldAvatar = (avatar: any) => {
+  const loaderStore = useLoaderStore();
 
+  // Create a reference to the file to delete
+  const desertRef = storageRef(storage, `avatars/${avatar.fileName}`);
+
+  // Delete the file
+  deleteObject(desertRef)
+    .then(() => {
+      console.log("Deleted file " + avatar.fileName);
+      loaderStore.loader = false;
+      // File deleted successfully
+    })
+    .catch((error) => {
+      console.log(error.message);
+      // Uh-oh, an error occurred!
+    });
+};
+const useUpdateAvatar = (updateUser: any) => {
+  const loaderStore = useLoaderStore();
+  loaderStore.loader = true;
+  const storeUser = useUserStore();
+  const idUser = JSON.parse(localStorage.getItem("idUser") || "");
+  const docRef = doc(db, "users", idUser);
+  if (updateUser.file !== undefined) {
+    if (updateUser.fileName !== "") {
+      useDeleteOldAvatar({ fileName: storeUser.user?.avatarName });
+    }
+    const avatarRef = storageRef(storage, `avatars/${updateUser.fileName}`);
+    uploadBytes(avatarRef, updateUser.file).then((snapshot) => {
+      console.log("Uploaded a blob or file!");
+
+      const avatarRef = storageRef(storage, snapshot.metadata.fullPath);
+
+      // Get the download URL
+      getDownloadURL(avatarRef).then((url) => {
+        // Insert url into an <img> tag to "download"
+        const data = ref({
+          avatar: url,
+          name: updateUser.name,
+          bio: updateUser.bio,
+          avatarName: updateUser.fileName,
+        });
+        updateDoc(docRef, data.value)
+          .then(() => {
+            console.log(
+              "A New Document Field has been added to an existing document"
+            );
+            useGetUsers();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      });
+    });
+  } else {
+    const data = ref({
+      name: updateUser.name,
+      bio: updateUser.bio,
+    });
+    updateDoc(docRef, data.value)
+      .then(() => {
+        console.log(
+          "A New Document Field has been added to an existing document"
+        );
+        useGetUsers();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+};
 export {
   useGetMovies,
+  useUpdateAvatar,
   // useUpdateMovie,
   useGetUsers,
   useGetNews,

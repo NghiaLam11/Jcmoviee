@@ -2,18 +2,21 @@
   <div class="trending">
     <div>
       <div>
-        <h4 class="title">DOCUMENTARIES</h4>
+        <h4 class="title">Documentaries</h4>
       </div>
       <div class="sort">
         <select v-model="year" name="" id="">
           <option value="Year">Year</option>
-          <option value="2021">2021</option>
-          <option value="2022">2022</option>
+          <option v-for="n in 23" :key="n" :value="2000 + n">{{ 2000 + n }}</option>
         </select>
         <select v-model="type" name="" id="">
           <option value="Type">Type</option>
           <option value="Action">Action</option>
           <option value="Fiction">Fiction</option>
+          <option value="Drama">Drama</option>
+          <option value="Crime">Crime</option>
+          <option value="Historical">Historical</option>
+          <option value="Comedy">Comedy</option>
         </select>
         <button @click="onSort">Sort</button>
       </div>
