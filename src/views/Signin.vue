@@ -50,7 +50,7 @@ const onSignin = () => {
   });
   useLogInUser(user.value);
   router.push("/");
-  console.log("rouetr")
+  console.log("rouetr");
 };
 </script>
 
@@ -78,6 +78,7 @@ const onSignin = () => {
 .form-group input {
   font-size: 0.9rem;
   padding: 0.3rem 0.7rem;
+  width: 20rem;
 }
 
 .title {
@@ -94,11 +95,24 @@ const onSignin = () => {
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   font-size: 0.9rem;
+  color: white;
+  border: none;
+}
+.btn-group .btn-back {
+  background-color: rgb(220, 9, 24);
+
+}.btn-group .btn-signin {
+  background-color: rgb(12, 169, 49);
+
 }
 .btn-group .btn-back:hover {
   transform: rotate(7deg) scale(1.1);
+  background-image: linear-gradient(to right, rgb(249, 9, 25), rgb(178, 10, 10));
+
 }
 .btn-group .btn-signin:hover {
-  transform: rotate(7deg) scale(1.1);
+  transform: rotate(7deg) scale(1.2);
+  background-image: linear-gradient(to right, rgb(34, 216, 18), rgb(37, 167, 7));
+
 }
 </style>

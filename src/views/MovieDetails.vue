@@ -194,11 +194,13 @@ const onComment = () => {
   height: 100%;
   width: 100%;
   position: absolute;
-  bottom: 10%;
+  bottom: 0%;
   left: 0;
 }
 .img-thumbnail .img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .band {
   height: 60vh;

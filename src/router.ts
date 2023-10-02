@@ -4,6 +4,8 @@ import Movie from "./views/Movie.vue"
 import Series from "./views/Series.vue"
 import Profile from "./views/Profile.vue"
 import Favourites from "./views/Favourites.vue"
+import Social from "./views/Social.vue"
+import Community from "./views/Community.vue"
 import Trending from "./views/Trending.vue"
 import Documentaries from "./views/Documentaries.vue"
 import Comingsoon from "./views/Comingsoon.vue"
@@ -11,12 +13,16 @@ import MovieDetails from "./views/MovieDetails.vue"
 import Signup from "./views/Signup.vue"
 import Signin from "./views/Signin.vue"
 import Welcome from "./views/Welcome.vue"
+import Settings from "./views/Settings.vue"
 import MoviesSearch from "./views/MoviesSearch.vue"
 
 
 const routes = [
   { path: "/", component: Home },
   { path: "/favourites", component: Favourites },
+  { path: "/social", component: Social },
+  { path: "/community", component: Community },
+  { path: "/settings", component: Settings },
   { path: "/trending", component: Trending },
   { path: "/movies", component: Movie },
   { path: "/series", component: Series },

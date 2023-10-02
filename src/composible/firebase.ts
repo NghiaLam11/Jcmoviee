@@ -264,8 +264,6 @@ const useLogOutUser = () => {
     });
 };
 const useDeleteOldAvatar = (avatar: any) => {
-  const loaderStore = useLoaderStore();
-
   // Create a reference to the file to delete
   const desertRef = storageRef(storage, `avatars/${avatar.fileName}`);
 
@@ -273,7 +271,6 @@ const useDeleteOldAvatar = (avatar: any) => {
   deleteObject(desertRef)
     .then(() => {
       console.log("Deleted file " + avatar.fileName);
-      loaderStore.loader = false;
       // File deleted successfully
     })
     .catch((error) => {
@@ -312,6 +309,7 @@ const useUpdateAvatar = (updateUser: any) => {
               "A New Document Field has been added to an existing document"
             );
             useGetUsers();
+            // loaderStore.loader = false;
           })
           .catch((error) => {
             console.log(error);

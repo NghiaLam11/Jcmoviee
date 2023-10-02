@@ -1,10 +1,10 @@
 <template>
   <div class="home" v-if="idUser !== null">
     <div class="band">
-      <div ref="imgThumbnail" @mouseenter="onPlayVideo" class="img-thumbnail">
-        <img class="img" :src="movieBand.thumbnail" alt="" />
+      <div @mouseenter="onPlayVideo" class="img-thumbnail">
+        <img class="img" :src="movieBand?.thumbnail" alt="" />
       </div>
-      <div ref="thumbnail" class="band-thumbnail" v-show="isDisplayThumbnail">
+      <div class="band-thumbnail" v-if="isDisplayThumbnail">
         <video
           ref="video"
           class="thumbnail"
@@ -13,18 +13,19 @@
           controls
           loop
         >
-          <source :src="movieBand.video" type="video/mp4" />
-          <source src="movie.ogg" type="video/ogg" />
-          Your browser does not support the video tag.
+          <source :src="movieBand?.video" type="video/mp4" />
         </video>
       </div>
 
       <div class="infor-movie">
         <div>
-          <h2><b class="name">{{ movieBand.title }}</b></h2>
+          <h2>
+            <b class="name">{{ movieBand?.title }}</b>
+          </h2>
         </div>
         <p class="desc">
-          <span>{{ movieBand.type }}</span> | <span>{{ movieBand.year }}</span>
+          <span>{{ movieBand?.type }}</span> |
+          <span>{{ movieBand?.year }}</span>
         </p>
         <div class="btn-group">
           <button @click="onWatch" class="btn-watch">Watch now</button>
@@ -94,8 +95,6 @@ const video = ref();
 const onWatch = () => {
   video.value.requestFullscreen();
 };
-const imgThumbnail = ref<any>();
-const thumbnail = ref<any>();
 const isDisplayThumbnail = ref(false);
 const isMute = ref(true);
 const onPlayAudio = () => {
@@ -120,11 +119,14 @@ const onPlayVideo = () => {
   height: 100%;
   width: 100%;
   position: absolute;
-  bottom: 10%;
+  bottom: 0%;
   left: 0;
+  /* object-fit: cover; */
 }
 .img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .band {
   height: 60vh;
@@ -149,10 +151,19 @@ const onPlayVideo = () => {
   transform: scale(1.7) translateY(5%);
   user-select: none;
 }
+
 .infor-movie {
   position: absolute;
   z-index: 8;
+  bottom: 0;
 }
+/* @media screen and (min-width: 542px) and (max-width: 628px) {
+  .infor-movie {
+    position: absolute;
+    z-index: 8;
+    bottom: 13%;
+  }
+} */
 .name {
   font-size: 2.5rem;
 }

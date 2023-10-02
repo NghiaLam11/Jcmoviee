@@ -65,6 +65,17 @@ onMounted(() => {
   background-color: var(--dark-bg);
 }
 .headerpage {
-  width: 20%;
+    width: 20%;
+  }
+@media screen and (max-width: 992px) {
+  .headerpage {
+    width: 0;
+  }
+  .routerview {
+    width: 100%;
+    height: 100vh;
+    overflow: scroll;
+    background-color: var(--dark-bg);
+  }
 }
 </style>
