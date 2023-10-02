@@ -75,131 +75,137 @@
           >
         </li>
       </ul>
-      <div ref="search" class="search">
-        <i @click="closeSearch" class="fas fa-caret-up"></i>
-        <form @submit.prevent="onSearch" class="search-group">
-          <input placeholder="Ex: One Piece" type="text" v-model="searchText" />
-          <i class="fas fa-search"></i>
-        </form>
+      <div class="nav-mobile">
+        <i @click="onToggleHeaderMobile" class="fas fa-bars"></i>
       </div>
-      <div ref="notification" class="notification">
-        <h3>Notification</h3>
-        <div class="list-wrapper">
-          <div class="notification-list">
-            <div class="notification-item">
-              <img
-                class="img"
-                src="../images/felix-mooneeram-evlkOfkQ5rE-unsplash.jpg"
-                alt=""
-              />
-              <div class="notification-infor">
-                <h4 class="title">The Warning Game</h4>
-                <p class="desc">A TV series hottest in Jcmovie</p>
-              </div>
+    </div>
+    <div v-if="istoggleHeaderMobile" class="header-mobile">
+      <HeaderMobile @onToggleHeaderMobile="onToggleHeaderMobile"/>
+    </div>
+    <div ref="search" class="search">
+      <i @click="closeSearch" class="fas fa-caret-up"></i>
+      <form @submit.prevent="onSearch" class="search-group">
+        <input placeholder="Ex: One Piece" type="text" v-model="searchText" />
+        <i class="fas fa-search"></i>
+      </form>
+    </div>
+    <div ref="notification" class="notification">
+      <h3>Notification</h3>
+      <div class="list-wrapper">
+        <div class="notification-list">
+          <div class="notification-item">
+            <img
+              class="img"
+              src="../images/felix-mooneeram-evlkOfkQ5rE-unsplash.jpg"
+              alt=""
+            />
+            <div class="notification-infor">
+              <h4 class="title">The Warning Game</h4>
+              <p class="desc">A TV series hottest in Jcmovie</p>
             </div>
-            <div class="notification-item">
-              <img
-                class="img"
-                src="../images/felix-mooneeram-evlkOfkQ5rE-unsplash.jpg"
-                alt=""
-              />
-              <div class="notification-infor">
-                <h4 class="title">The Warning Game</h4>
-                <p class="desc">A TV series hottest in Jcmovie</p>
-              </div>
+          </div>
+          <div class="notification-item">
+            <img
+              class="img"
+              src="../images/felix-mooneeram-evlkOfkQ5rE-unsplash.jpg"
+              alt=""
+            />
+            <div class="notification-infor">
+              <h4 class="title">The Warning Game</h4>
+              <p class="desc">A TV series hottest in Jcmovie</p>
             </div>
-            <div class="notification-item">
-              <img
-                class="img"
-                src="../images/felix-mooneeram-evlkOfkQ5rE-unsplash.jpg"
-                alt=""
-              />
-              <div class="notification-infor">
-                <h4 class="title">The Warning Game</h4>
-                <p class="desc">A TV series hottest in Jcmovie</p>
-              </div>
+          </div>
+          <div class="notification-item">
+            <img
+              class="img"
+              src="../images/felix-mooneeram-evlkOfkQ5rE-unsplash.jpg"
+              alt=""
+            />
+            <div class="notification-infor">
+              <h4 class="title">The Warning Game</h4>
+              <p class="desc">A TV series hottest in Jcmovie</p>
             </div>
-            <div class="notification-item">
-              <img
-                class="img"
-                src="../images/felix-mooneeram-evlkOfkQ5rE-unsplash.jpg"
-                alt=""
-              />
-              <div class="notification-infor">
-                <h4 class="title">The Warning Game</h4>
-                <p class="desc">A TV series hottest in Jcmovie</p>
-              </div>
+          </div>
+          <div class="notification-item">
+            <img
+              class="img"
+              src="../images/felix-mooneeram-evlkOfkQ5rE-unsplash.jpg"
+              alt=""
+            />
+            <div class="notification-infor">
+              <h4 class="title">The Warning Game</h4>
+              <p class="desc">A TV series hottest in Jcmovie</p>
             </div>
-            <div class="notification-item">
-              <img
-                class="img"
-                src="../images/felix-mooneeram-evlkOfkQ5rE-unsplash.jpg"
-                alt=""
-              />
-              <div class="notification-infor">
-                <h4 class="title">The Warning Game</h4>
-                <p class="desc">A TV series hottest in Jcmovie</p>
-              </div>
+          </div>
+          <div class="notification-item">
+            <img
+              class="img"
+              src="../images/felix-mooneeram-evlkOfkQ5rE-unsplash.jpg"
+              alt=""
+            />
+            <div class="notification-infor">
+              <h4 class="title">The Warning Game</h4>
+              <p class="desc">A TV series hottest in Jcmovie</p>
             </div>
-            <div class="notification-item">
-              <img
-                class="img"
-                src="../images/felix-mooneeram-evlkOfkQ5rE-unsplash.jpg"
-                alt=""
-              />
-              <div class="notification-infor">
-                <h4 class="title">The Warning Game</h4>
-                <p class="desc">A TV series hottest in Jcmovie</p>
-              </div>
+          </div>
+          <div class="notification-item">
+            <img
+              class="img"
+              src="../images/felix-mooneeram-evlkOfkQ5rE-unsplash.jpg"
+              alt=""
+            />
+            <div class="notification-infor">
+              <h4 class="title">The Warning Game</h4>
+              <p class="desc">A TV series hottest in Jcmovie</p>
             </div>
-            <div class="notification-item">
-              <img
-                class="img"
-                src="../images/felix-mooneeram-evlkOfkQ5rE-unsplash.jpg"
-                alt=""
-              />
-              <div class="notification-infor">
-                <h4 class="title">The Warning Game</h4>
-                <p class="desc">A TV series hottest in Jcmovie</p>
-              </div>
+          </div>
+          <div class="notification-item">
+            <img
+              class="img"
+              src="../images/felix-mooneeram-evlkOfkQ5rE-unsplash.jpg"
+              alt=""
+            />
+            <div class="notification-infor">
+              <h4 class="title">The Warning Game</h4>
+              <p class="desc">A TV series hottest in Jcmovie</p>
             </div>
-            <div class="notification-item">
-              <img
-                class="img"
-                src="../images/felix-mooneeram-evlkOfkQ5rE-unsplash.jpg"
-                alt=""
-              />
-              <div class="notification-infor">
-                <h4 class="title">The Warning Game</h4>
-                <p class="desc">A TV series hottest in Jcmovie</p>
-              </div>
+          </div>
+          <div class="notification-item">
+            <img
+              class="img"
+              src="../images/felix-mooneeram-evlkOfkQ5rE-unsplash.jpg"
+              alt=""
+            />
+            <div class="notification-infor">
+              <h4 class="title">The Warning Game</h4>
+              <p class="desc">A TV series hottest in Jcmovie</p>
             </div>
-            <div class="notification-item">
-              <img
-                class="img"
-                src="../images/felix-mooneeram-evlkOfkQ5rE-unsplash.jpg"
-                alt=""
-              />
-              <div class="notification-infor">
-                <h4 class="title">The Warning Game</h4>
-                <p class="desc">A TV series hottest in Jcmovie</p>
-              </div>
+          </div>
+          <div class="notification-item">
+            <img
+              class="img"
+              src="../images/felix-mooneeram-evlkOfkQ5rE-unsplash.jpg"
+              alt=""
+            />
+            <div class="notification-infor">
+              <h4 class="title">The Warning Game</h4>
+              <p class="desc">A TV series hottest in Jcmovie</p>
             </div>
-            <div class="notification-item">
-              <img
-                class="img"
-                src="../images/felix-mooneeram-evlkOfkQ5rE-unsplash.jpg"
-                alt=""
-              />
-              <div class="notification-infor">
-                <h4 class="title">The Warning Game</h4>
-                <p class="desc">A TV series hottest in Jcmovie</p>
-              </div>
+          </div>
+          <div class="notification-item">
+            <img
+              class="img"
+              src="../images/felix-mooneeram-evlkOfkQ5rE-unsplash.jpg"
+              alt=""
+            />
+            <div class="notification-infor">
+              <h4 class="title">The Warning Game</h4>
+              <p class="desc">A TV series hottest in Jcmovie</p>
             </div>
           </div>
         </div>
-        <button @click="closeNotification">Close</button>
       </div>
+      <button @click="closeNotification">Close</button>
     </div>
   </div>
 </template>
@@ -213,6 +219,7 @@ import {
 } from "../composible/pinia";
 import { useRouter } from "vue-router";
 import { Movies } from "../composible/type";
+import HeaderMobile from "./HeaderMobile.vue";
 const router = useRouter();
 
 const storeUser = useUserStore();
@@ -221,6 +228,10 @@ const search = ref();
 const notification = ref();
 const scrollerStore = useScrollerStore();
 const searchText = ref("");
+const istoggleHeaderMobile = ref(false);
+const onToggleHeaderMobile = () => {
+  istoggleHeaderMobile.value = !istoggleHeaderMobile.value;
+};
 
 const onSignout = () => {
   useLogOutUser();
@@ -294,6 +305,20 @@ i {
   border-radius: 4px;
   object-fit: cover;
 }
+.header-horizontal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row-reverse;
+
+  width: 100%;
+  /* background-color: rgb(0, 0, 0, 0.4); */
+
+  position: fixed;
+  top: 0;
+  right: 0%;
+  z-index: 999;
+}
 .nav-list {
   display: flex;
   padding: 2rem 1rem;
@@ -338,6 +363,7 @@ i {
   position: fixed;
   top: -50%;
   right: 0;
+  z-index: 9999;
 
   padding: 1rem 2rem;
   background-color: var(--dark-bg);
@@ -367,6 +393,41 @@ i {
   color: #ffffff;
   cursor: pointer;
 }
+
+.search-group {
+  overflow: hidden;
+  border: 1px solid white;
+  border-radius: 3px;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  width: 60vw;
+}
+.search-group i {
+  color: black !important;
+}
+.search-group input {
+  outline: none;
+  border: none;
+  padding: 0.5rem 0.5rem;
+  width: 100%;
+}
+.notification {
+  width: 65%;
+  padding: 1rem;
+
+  position: fixed;
+  right: -100%;
+  top: 0;
+  z-index: 9999;
+
+  background-color: var(--dark-bg);
+  color: #ffffff;
+  border: 1px solid #ffffff;
+  height: 100vh;
+  transition: all 1s ease-in-out;
+  overflow: hidden;
+}
 .notification .img {
   width: 20%;
   padding: 0.7rem;
@@ -393,32 +454,53 @@ i {
   font-size: 0.9rem;
   opacity: 0.8;
 }
+.nav-mobile {
+  display: block;
+}
+/* ---------------------------------------------------- XSM ----------------------------------------------------- */
 @media screen and (max-width: 542px) {
   .header-vertical {
     display: none;
   }
-  .header-horizontal {
+  .nav-list:first-child {
     display: none;
+  }
+  .nav-mobile i {
+    font-size: 1.4rem;
+    margin-left: 1.5rem;
+    cursor: pointer;
+  }
+  .search-group {
+    width: 100%;
+  }
+  .notification {
+    width: 100%;
   }
 }
 /* ---------------------------------------------------- SM ----------------------------------------------------- */
-@media screen and (min-width: 542px) and (max-width: 768px) {
+@media screen and (min-width: 542px) and (max-width: 638px) {
   .header-vertical {
     display: none;
   }
-  .header-horizontal {
+  .nav-list:first-child {
     display: none;
+  }
+  .nav-mobile i {
+    font-size: 1.4rem;
+    padding-left: 1.5rem;
   }
 }
 /* ---------------------------------------------------- MD ----------------------------------------------------- */
-@media screen and (min-width: 768px) and (max-width: 992px) {
+@media screen and (min-width: 638px) and (max-width: 992px) {
   .header-vertical {
     display: none;
   }
+
   .header-horizontal {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-direction: row;
 
     width: 100%;
     /* background-color: rgb(0, 0, 0, 0.4); */
@@ -428,38 +510,8 @@ i {
     right: 0%;
     z-index: 999;
   }
-  .search-group {
-    overflow: hidden;
-    border: 1px solid white;
-    border-radius: 3px;
-    background-color: #ffffff;
-    display: flex;
-    align-items: center;
-    width: 60vw;
-  }
-  .search-group i {
-    color: black !important;
-  }
-  .search-group input {
-    outline: none;
-    border: none;
-    padding: 0.5rem 0.5rem;
-    width: 100%;
-  }
-  .notification {
-    width: 55%;
-    padding: 1rem;
-
-    position: fixed;
-    right: -100%;
-    top: 0;
-
-    background-color: var(--dark-bg);
-    color: #ffffff;
-    border: 1px solid #ffffff;
-    height: 100vh;
-    transition: all 1s ease-in-out;
-    overflow: hidden;
+  .nav-mobile {
+    display: none;
   }
 }
 /* ---------------------------------------------------- LG ----------------------------------------------------- */
@@ -475,6 +527,9 @@ i {
     padding-bottom: 2rem;
     padding-top: 2.5rem;
   }
+  .header-mobile {
+    display: none;
+  }
   .header-vertical .nav li a {
     display: flex;
     align-items: center;
@@ -483,6 +538,7 @@ i {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-direction: row;
 
     width: 80%;
     /* background-color: rgb(0, 0, 0, 0.4); */
@@ -492,6 +548,9 @@ i {
     right: 0%;
     z-index: 999;
   }
+  .nav-mobile {
+    display: none;
+  }
 
   .header-horizontal .avatar {
     width: 25px;
@@ -500,37 +559,10 @@ i {
     object-fit: cover;
   }
   .search-group {
-    overflow: hidden;
-    border: 1px solid white;
-    border-radius: 3px;
-    background-color: #ffffff;
-    display: flex;
-    align-items: center;
-    width: 50vw;
-  }
-  .search-group i {
-    color: black !important;
-  }
-  .search-group input {
-    outline: none;
-    border: none;
-    padding: 0.5rem 0.5rem;
-    width: 100%;
+    width: 70vw;
   }
   .notification {
-    width: 35%;
-    padding: 1rem;
-
-    position: fixed;
-    right: -100%;
-    top: 0;
-
-    background-color: var(--dark-bg);
-    color: #ffffff;
-    border: 1px solid #ffffff;
-    height: 100vh;
-    transition: all 1s ease-in-out;
-    overflow: hidden;
+    width: 55%;
   }
 }
 </style>

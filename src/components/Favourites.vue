@@ -164,4 +164,13 @@ const breakpoints = ref({
 .card-img {
   transition: all 0.2s linear;
 }
+@media screen and (max-width: 638px) {
+  .card {
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
+  }
+  .card-item {
+    border-radius: 3px;
+  }
+}
 </style>

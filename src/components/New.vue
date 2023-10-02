@@ -79,8 +79,8 @@ const idUser = JSON.parse(localStorage.getItem("idUser") || "");
 console.log(idUser);
 console.log(store.movies);
 const breakpoints = ref({
-  500: {
-    itemsToShow: 2,
+  0: {
+    itemsToShow: 1.5,
   },
   700: {
     itemsToShow: 3,
@@ -173,5 +173,14 @@ const breakpoints = ref({
 }
 .card-img {
   transition: all 0.2s linear;
+}
+@media screen and (max-width: 638px) {
+  .card {
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
+  }
+  .card-item {
+    border-radius: 3px;
+  }
 }
 </style>
