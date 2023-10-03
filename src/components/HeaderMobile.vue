@@ -45,16 +45,28 @@
             ><span>Coming soon</span></router-link
           >
         </li>
+        <li>
+          <router-link to="/settings"
+            ><i class="fas fa-cog"></i><span>Settings</span></router-link
+          >
+        </li>
+        <li>
+          <a @click="onSignout"
+            ><i class="fas fa-sign-out-alt"></i><span>Logout</span></a
+          >
+        </li>
       </ul>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { defineEmits } from "vue/dist/vue.js";
-const emit = defineEmits(["onToggleHeaderMobile"]);
+const emit = defineEmits(["onToggleHeaderMobile", "onSignout"]);
 const onBack = () => {
   emit("onToggleHeaderMobile");
+};
+const onSignout = () => {
+  emit("onSignout");
 };
 </script>
 

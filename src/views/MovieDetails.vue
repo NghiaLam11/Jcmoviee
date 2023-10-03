@@ -155,7 +155,6 @@ const onStartWatch = () => {
 };
 const onStopWatch = () => {
   isDisplayThumbnail.value = false;
-  console.log("aaaaaaa");
 };
 const dots = ref<any>();
 const btnText = ref<any>();
@@ -172,7 +171,6 @@ function onToggleReadDesc() {
   }
 }
 const onFavourite = (movie: any, type: any) => {
-  console.log(movie.id);
   useUpdateUser({ movies: movie, type });
 };
 const onComment = () => {
@@ -222,7 +220,6 @@ const onComment = () => {
 .thumbnail {
   width: 100%;
   height: 100%;
-  transform: scale(1.7) translateY(5%);
   user-select: none;
 }
 .infor-movie {
@@ -360,19 +357,14 @@ const onComment = () => {
 }
 .comment {
   display: flex;
+  justify-content: space-evenly;
 }
 .comment .img {
-  width: 10%;
   padding: 1rem;
 }
 .comment .img img {
   border-radius: 5px;
-  height: 100px;
   object-fit: cover;
-}
-.comment .user {
-  width: 90%;
-  padding: 1rem;
 }
 .comment .user h4 {
   font-size: 1.2rem;
@@ -394,5 +386,83 @@ const onComment = () => {
   padding: 1rem;
   background-color: #3e3e3e;
   border-radius: 3px;
+}
+@media screen and (min-width: 992px) {
+  .thumbnail {
+    transform: scale(1.2) translateY(5%);
+  }
+  .comment .user {
+    width: 85%;
+    padding: 1rem;
+  }
+  .comment .img {
+    padding: 1rem;
+  }
+  .comment .img img {
+    height: 60px;
+    width: 60px;
+  }
+  .comment .user h4 {
+    font-size: 1.4rem;
+  }
+  .comment .user span {
+    font-size: 1rem;
+  }
+  .comment .user p {
+    font-size: 1rem;
+    padding: 1rem;
+  }
+}
+@media screen and (min-width: 628px) and (max-width: 992px) {
+  .thumbnail {
+    transform: scale(1.4) translateY(0%);
+  }
+  .comment .user {
+    width: 80%;
+    padding: 0.5rem;
+  }
+  .comment .img {
+    padding: 0.5rem;
+  }
+  .comment .img img {
+    height: 60px;
+    width: 60px;
+  }
+  .comment .user h4 {
+    font-size: 1rem;
+  }
+  .comment .user span {
+    font-size: 0.9rem;
+  }
+  .comment .user p {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
+}
+@media screen and (max-width: 628px) {
+  .thumbnail {
+    transform: scale(2.5) translateY(0%);
+  }
+  .comment .user {
+    width: 80%;
+    padding: 0.5rem;
+  }
+  .comment .img {
+    padding: 0.5rem;
+  }
+  .comment .img img {
+    height: 50px;
+    width: 50px;
+  }
+  .comment .user h4 {
+    font-size: 0.9rem;
+  }
+  .comment .user p {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+  .comment .user span {
+    font-size: 0.7rem;
+  }
 }
 </style>

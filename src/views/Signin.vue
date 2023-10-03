@@ -50,7 +50,6 @@ const onSignin = () => {
   });
   useLogInUser(user.value);
   router.push("/");
-  console.log("rouetr");
 };
 </script>
 

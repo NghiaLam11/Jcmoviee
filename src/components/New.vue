@@ -65,19 +65,9 @@ import { useUpdateUser } from "../composible/firebase";
 const store = useMoviesStore();
 const userStore = useUserStore();
 const onFavourite = (movie: any, type: any) => {
-  console.log(movie.id);
   useUpdateUser({ movies: movie, type });
 };
 
-// const idFavourite = computed(() => {
-//   return store.movies.favourite
-// });
-// Vấn đề là nó check idUser trong movie.userFavourite khi ... chua get data het
-// đang làm cái button hien thi solid heart khi dã fav và tat khi đã unfav
-const idUser = JSON.parse(localStorage.getItem("idUser") || "");
-
-console.log(idUser);
-console.log(store.movies);
 const breakpoints = ref({
   0: {
     itemsToShow: 1.5,

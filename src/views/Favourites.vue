@@ -47,7 +47,6 @@ import { useUserStore } from "../composible/pinia";
 import { useUpdateUser } from "../composible/firebase";
   const store = useUserStore();
   const onFavourite = (movie: any, type: any) => {
-  console.log(movie.id);
   useUpdateUser({ movies: movie, type });
 };
 </script>
@@ -87,6 +86,7 @@ import { useUpdateUser } from "../composible/firebase";
   position: absolute;
   top: 5px;
   right: 5px;
+  z-index: 2;
   border-radius: 5px;
   border: none;
   padding-top: 3px;
@@ -103,7 +103,7 @@ import { useUpdateUser } from "../composible/firebase";
   position: absolute;
   top: 5px;
   right: 5px;
-  z-index: 5;
+  z-index: 3;
   border-radius: 5px;
   border: none;
   padding-top: 3px;
@@ -149,5 +149,13 @@ import { useUpdateUser } from "../composible/firebase";
 }
 .card-img {
   transition: all 0.2s linear;
+}
+@media screen and (max-width: 738px) {
+  .card {
+    width: 50%;
+  }
+  .card-item {
+    border-radius: 5px;
+  }
 }
 </style>

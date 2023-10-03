@@ -7,7 +7,9 @@
       <div class="sort">
         <select v-model="year" name="" id="">
           <option value="Year">Year</option>
-          <option v-for="n in 23" :key="n" :value="2000 + n">{{ 2000 + n }}</option>
+          <option v-for="n in 23" :key="n" :value="2000 + n">
+            {{ 2000 + n }}
+          </option>
         </select>
         <select v-model="type" name="" id="">
           <option value="Type">Type</option>
@@ -155,7 +157,7 @@ const onSort = () => {
   position: absolute;
   top: 5px;
   right: 5px;
-  z-index: 4;
+  z-index: 2;
   border-radius: 5px;
   border: none;
   padding-top: 3px;
@@ -175,7 +177,7 @@ const onSort = () => {
   position: absolute;
   top: 5px;
   right: 5px;
-  z-index: 5;
+  z-index: 3;
   border-radius: 5px;
   border: none;
   padding-top: 3px;
@@ -218,5 +220,13 @@ const onSort = () => {
 }
 .card-img {
   transition: all 0.2s linear;
+}
+@media screen and (max-width: 738px) {
+  .card {
+    width: 50%;
+  }
+  .card-item {
+    border-radius: 5px;
+  }
 }
 </style>

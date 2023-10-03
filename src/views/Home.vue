@@ -20,7 +20,7 @@
       <div class="infor-movie">
         <div>
           <h2>
-            <b class="name">{{ movieBand?.title }}</b>
+            <b class="name ellipsis">{{ movieBand?.title }}</b>
           </h2>
         </div>
         <p class="desc">
@@ -73,7 +73,6 @@ import Trending from "../components/Trending.vue";
 import New from "../components/New.vue";
 import ContinueWatch from "../components/ContinueWatch.vue";
 import { computed, ref } from "vue";
-import { db } from "../firebase";
 import { useMoviesStore, useUserStore } from "../composible/pinia";
 import { useUpdateUser } from "../composible/firebase";
 const storeMovies = useMoviesStore();
@@ -87,7 +86,6 @@ const movieBand = computed(() => {
   return item;
 });
 const onFavourite = (movie: any, type: any) => {
-  console.log(movie.id);
   useUpdateUser({ movies: movie, type });
 };
 const idUser = JSON.parse(localStorage.getItem("idUser") || "");
@@ -99,7 +97,6 @@ const isDisplayThumbnail = ref(false);
 const isMute = ref(true);
 const onPlayAudio = () => {
   isMute.value = !isMute.value;
-  console.log(db);
 };
 const onPlayVideo = () => {
   setTimeout(() => {
@@ -140,15 +137,19 @@ const onPlayVideo = () => {
   position: absolute;
   right: 0;
   top: 0%;
+  left: 0;
+  bottom: 0;
   width: 100%;
   height: 100%;
   z-index: 5;
   user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .thumbnail {
   width: 100%;
-  height: 100%;
-  transform: scale(1.7) translateY(5%);
+  /* height: 100%; */
   user-select: none;
 }
 
@@ -157,13 +158,21 @@ const onPlayVideo = () => {
   z-index: 8;
   bottom: 0;
 }
-/* @media screen and (min-width: 542px) and (max-width: 628px) {
-  .infor-movie {
-    position: absolute;
-    z-index: 8;
-    bottom: 13%;
+@media screen and (min-width: 992px) {
+  .thumbnail {
+    transform: scale(1.2) translateY(5%);
   }
-} */
+}
+@media screen and (min-width: 628px) and (max-width: 992px) {
+  .thumbnail {
+    transform: scale(1.4) translateY(0%);
+  }
+}
+@media screen and (max-width: 628px) {
+  .thumbnail {
+    transform: scale(2.5) translateY(0%);
+  }
+}
 .name {
   font-size: 2.5rem;
 }

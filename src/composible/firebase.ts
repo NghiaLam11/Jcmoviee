@@ -119,7 +119,7 @@ const useAddUser = (user: any) => {
     .then((docRef) => {
       localStorage.setItem("idUser", JSON.stringify(docRef.id));
       console.log("Document has been added successfully");
-      loaderStore.loader = false;
+      useGetUsers();
     })
     .catch((error) => {
       console.log(error);
@@ -336,7 +336,6 @@ const useUpdateAvatar = (updateUser: any) => {
 export {
   useGetMovies,
   useUpdateAvatar,
-  // useUpdateMovie,
   useGetUsers,
   useGetNews,
   useCreateUser,

@@ -29,14 +29,18 @@
             placeholder="Change your name"
             type="text"
           />
-          <span class="error" v-if="name.length < 3">User's name must have more than 3 character</span>
+          <span class="error" v-if="name.length < 3"
+            >User's name must have more than 3 character</span
+          >
           <input
             class="update-bio"
             v-model="bio"
             placeholder="Change your bio"
             type="text"
           />
-          <span class="error" v-if="bio.length > 100">User's name must have less than 100 character</span>
+          <span class="error" v-if="bio.length > 100"
+            >User's name must have less than 100 character</span
+          >
 
           <div class="btn-group">
             <button @click="onToggleSetting">Back</button
@@ -83,10 +87,7 @@ const onChange = () => {
     console.log(file.value);
     isDisplaySettings.value = !isDisplaySettings.value;
     useUpdateAvatar({
-      fileName:
-        file.value?.name === undefined
-          ? store.user?.avatarName
-          : file.value.name,
+      fileName: file.value?.name,
       file: file.value,
       name: name.value,
       bio: bio.value,
@@ -110,7 +111,7 @@ const onChange = () => {
 
   box-shadow: -2px 2px 2px 0 black;
   transition: all 0.2s linear;
-  z-index: 6;
+  z-index: 3;
   position: absolute;
 }
 .avatar {
@@ -185,7 +186,7 @@ const onChange = () => {
 }
 .setting {
   position: absolute;
-  z-index: 5;
+  z-index: 2;
   top: 0;
   left: 0;
   right: 0;
@@ -214,7 +215,6 @@ const onChange = () => {
   width: 50%;
   padding: 0.4rem 0.5rem;
   background: linear-gradient(to top, #aa01f3, #00b3ff);
-
 }
 .change-avatar img {
   width: 50px;
@@ -251,11 +251,16 @@ const onChange = () => {
   font-size: 0.9rem;
   opacity: 0.7;
 }
-/* .multiline-ellipsis {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  white-space: pre-wrap; 
-} */
+@media screen and (max-width: 738px) {
+  .avatar {
+    width: 130px;
+    height: 110px;
+  }
+  .name {
+    font-size: 1.5rem;
+  }
+  .bio {
+    font-size: 0.8rem;
+  }
+}
 </style>

@@ -88,7 +88,7 @@ const onFavourite = (movie: any, type: any) => {
   position: absolute;
   top: 5px;
   right: 5px;
-  z-index: 4;
+  z-index: 2;
   border-radius: 5px;
   border: none;
   padding-top: 3px;
@@ -108,7 +108,7 @@ const onFavourite = (movie: any, type: any) => {
   position: absolute;
   top: 5px;
   right: 5px;
-  z-index: 5;
+  z-index: 3;
   border-radius: 5px;
   border: none;
   padding-top: 3px;
@@ -164,5 +164,13 @@ const onFavourite = (movie: any, type: any) => {
     width: 100px;
     height: 100px;
     object-fit: cover;
+}
+@media screen and (max-width: 738px) {
+  .card {
+    width: 50%;
+  }
+  .card-item {
+    border-radius: 5px;
+  }
 }
 </style>

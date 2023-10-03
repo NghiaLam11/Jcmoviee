@@ -65,8 +65,8 @@ onMounted(() => {
   background-color: var(--dark-bg);
 }
 .headerpage {
-    width: 20%;
-  }
+  width: 20%;
+}
 @media screen and (max-width: 992px) {
   .headerpage {
     width: 0;

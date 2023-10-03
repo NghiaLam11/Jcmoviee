@@ -80,7 +80,7 @@
       </div>
     </div>
     <div v-if="istoggleHeaderMobile" class="header-mobile">
-      <HeaderMobile @onToggleHeaderMobile="onToggleHeaderMobile"/>
+      <HeaderMobile @onToggleHeaderMobile="onToggleHeaderMobile" @onSignout="onSignout" />
     </div>
     <div ref="search" class="search">
       <i @click="closeSearch" class="fas fa-caret-up"></i>
@@ -221,7 +221,6 @@ import { useRouter } from "vue-router";
 import { Movies } from "../composible/type";
 import HeaderMobile from "./HeaderMobile.vue";
 const router = useRouter();
-
 const storeUser = useUserStore();
 const storeMovies = useMoviesStore();
 const search = ref();
@@ -232,6 +231,9 @@ const istoggleHeaderMobile = ref(false);
 const onToggleHeaderMobile = () => {
   istoggleHeaderMobile.value = !istoggleHeaderMobile.value;
 };
+router.beforeEach(() => {
+  istoggleHeaderMobile.value = false;
+});
 
 const onSignout = () => {
   useLogOutUser();
@@ -455,7 +457,7 @@ i {
   opacity: 0.8;
 }
 .nav-mobile {
-  display: block;
+  z-index: 6;
 }
 /* ---------------------------------------------------- XSM ----------------------------------------------------- */
 @media screen and (max-width: 542px) {

@@ -59,7 +59,6 @@ import { useUserStore } from "../composible/pinia";
 import { useUpdateUser } from "../composible/firebase";
 const store = useUserStore();
 const onFavourite = (movie: any, type: any) => {
-  console.log(movie.id);
   useUpdateUser({ movies: movie, type });
 };
 const breakpoints = ref({

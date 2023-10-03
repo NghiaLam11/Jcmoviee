@@ -44,7 +44,6 @@ import { useUpdateUser } from "../composible/firebase";
 const storeUser = useUserStore();
 const store = useMoviesStore();
 const onFavourite = (movie: any, type: any) => {
-  console.log(movie.id);
   useUpdateUser({ movies: movie, type });
 };
 </script>
@@ -84,7 +83,7 @@ const onFavourite = (movie: any, type: any) => {
   position: absolute;
   top: 5px;
   right: 5px;
-  z-index: 4;
+  z-index: 2;
   border-radius: 5px;
   border: none;
   padding-top: 3px;
@@ -101,7 +100,7 @@ const onFavourite = (movie: any, type: any) => {
   position: absolute;
   top: 5px;
   right: 5px;
-  z-index: 5;
+  z-index: 3;
   border-radius: 5px;
   border: none;
   padding-top: 3px;
@@ -147,5 +146,13 @@ const onFavourite = (movie: any, type: any) => {
 }
 .card-img {
   transition: all 0.2s linear;
+}
+@media screen and (max-width: 738px) {
+  .card {
+    width: 50%;
+  }
+  .card-item {
+    border-radius: 5px;
+  }
 }
 </style>

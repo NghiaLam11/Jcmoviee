@@ -12,23 +12,6 @@
         />
         <span>Opps!!! Coming soon...</span>
       </div>
-      <!-- <div class="card-list">
-          <div class="card" v-for="movie in movies" :key="movie.title">
-            <div>
-              <div class="card-item">
-                <div class="card-img">
-                  <img class="img" :src="movie.thumbnail" alt="" />
-                </div>
-                <button class="btn-fav"><i class="far fa-heart"></i></button>
-  
-                <div class="card-movie">
-                  <h5 class="name ellipsis">{{ movie.title }}</h5>
-                  <p class="desc">{{ movie.desc }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
     </div>
   </div>
 </template>
